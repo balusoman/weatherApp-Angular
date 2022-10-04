@@ -4,3 +4,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+html , body{
+    padding: 0;
+    margin: 0;
+}
+
+tui-wrapper[data-appearance='textfield'] {  
+    border-radius: 12px !important;
+    background: rgb(231, 235, 242) !important;
+    box-shadow: 1px !important;  
+} 
+.t-input{
+    padding-bottom: 1.2rem !important;
+    font-size: 16px !important;
+    color:rgb(83, 83, 83) !important;   
+}
+:root{
+    --tui-height-l: 2.5rem !important;
+    --tui-primary:rgb(251, 137, 16) !important;
+    --tui-primary-hover: rgb(251, 137, 16) !important;
+    --tui-primary-active: rgb(210, 198, 174) !important; 
+    --tui-secondary: #2b2b2b;
+    --tui-secondary-hover: #2b2b2b !important;
+    --tui-secondary-active: #d8ddf2;
+}
+tui-data-list { 
+    padding: 0 !important;
+    color:rgb(83, 83, 83) !important;
+}
+.t-icon{
+    color:rgb(251 136 16 / 55%) !important;  
+}
