@@ -9,12 +9,13 @@ import { WeatherComponent } from './weather.component';
 
 @NgModule({
   declarations: [
-    WeatherComponent
+    WeatherComponent,
+     
   ],
   imports: [
-    CommonModule,
+    CommonModule, 
     WeatherRoutingModule,
-    TaigaUiModule
+    TaigaUiModule, 
   ]
 })
 export class WeatherModule { }

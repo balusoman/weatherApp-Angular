@@ -1,0 +1,112 @@
+$target: var(--target-width); 
+$rotate: var(--target-rotate);
+
+
+.container{
+    overflow: hidden;
+    width: 18rem; 
+    margin-left: -145px;
+    
+}
+.bar{
+    height: 10rem;
+    width: 20rem;
+    opacity: 0.6;
+}
+
+
+.progressbar{
+    animation: progress-animation 5s ease-in forwards;
+     
+} 
+
+.progress-bar{
+    width: 18rem;
+    height: 2px;
+}
+.progress-bar div{
+    width: 50%;
+    height: 1px;
+    background-color: rgb(251 146 60);
+}
+ .movespan{
+    height: 6px;
+    width: 6px; 
+    border-radius: 50%;
+    margin-top: -2px;
+    margin-right: -3px;
+    background-color: rgb(251 146 60);
+    float: right; 
+}
+.dotleft{
+    height: 6px;
+    width: 6px; 
+    border-radius: 50%;
+    margin-top: -2px; 
+    left: -3px;
+    background-color: antiquewhite; 
+      
+
+} 
+.sunrise{
+    height: 40px;
+    width: 70px;
+    margin-top: 10px;
+    margin-left: -32px;
+    overflow: hidden;
+}
+.sunset{
+height: 40px;
+    width: 70px;
+    margin-top: 10px;
+    margin-left: -32px;
+}
+.dotright{
+    height: 6px;
+    width: 6px; 
+    border-radius: 50%;
+    margin-top: -3px; 
+     right: -3px;
+    background-color: antiquewhite; 
+      
+
+} 
+.sun{
+    width: 18rem;
+    height: 10rem;
+    // top: 50%;
+    // left: 50%;
+    margin-top: 65px;
+    margin-left: -145px;
+    animation: spin-right 5s linear forwards;
+}
+
+.earth{
+    width: 30px;
+    height: 30px;
+    background-color: rgb(255, 168, 98);
+    margin-top: 62px;
+    margin-left: -35px;
+
+}
+
+.forecastdiv { 
+    animation: slide 2s linear forwards;
+} 
+  
+ 
+
+@keyframes progress-animation{
+    0% {width: 0%;}
+    100% {width: $target;}
+}
+
+@keyframes spin-right{
+    // 50%{transform: rotate(85deg);} 
+    100% {transform: rotate($rotate)}
+}
+
+@keyframes slide {
+    0%  { left:100px;top: .5rem; }
+    100%  { left:2.5rem;top: .5rem;} 
+  }

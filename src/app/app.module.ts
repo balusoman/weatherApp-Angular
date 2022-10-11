@@ -1,24 +1,32 @@
 import { TuiRootModule ,TuiButtonModule,TuiDataListModule,TuiHostedDropdownModule } from "@taiga-ui/core"; 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagenotfoundComponent } from './screens/pagenotfound/pagenotfound.component';
+import { CommonModule } from "@angular/common";
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,  
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
-      BrowserAnimationsModule,
+      BrowserAnimationsModule, 
       TuiRootModule,TuiButtonModule,TuiDataListModule,TuiHostedDropdownModule
 ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    
+  ],
+  bootstrap: [AppComponent],
+  schemas:  [
+    CUSTOM_ELEMENTS_SCHEMA
+  ]
 })
 export class AppModule { }
