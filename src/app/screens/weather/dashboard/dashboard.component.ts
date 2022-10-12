@@ -29,7 +29,7 @@ image :HTMLImageElement = new Image()
         ctx.drawImage(this.image,x.getPixelForValue(i)-25, y.getPixelForValue(this.demoData[i])-60,50,50)
       }
 
-      console.log(x.getPixelForValue(0))
+      // console.log(x.getPixelForValue(0))
       
       // ctx.globalCompositeOperation = 'destination-over';
       // ctx.fillStyle = options.color;
