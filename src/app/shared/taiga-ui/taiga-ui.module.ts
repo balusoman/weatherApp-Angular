@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 import { TuiLoaderModule,TuiDataListModule,TuiLabelModule} from '@taiga-ui/core';
 import { TuiFilterPipeModule,} from "@taiga-ui/cdk";
 import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListWrapperModule,TuiToggleModule,TuiProgressModule} from '@taiga-ui/kit';
@@ -15,8 +15,8 @@ import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListW
     TuiInputModule,
     TuiFilterByInputPipeModule,
     TuiDataListWrapperModule,
-    ReactiveFormsModule,
-    FormsModule,TuiToggleModule,
+    
+    TuiToggleModule,
     TuiFilterPipeModule,
     TuiDataListModule,
     TuiComboBoxModule,
@@ -27,9 +27,8 @@ import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListW
     TuiLoaderModule,
     TuiInputModule,
     TuiFilterByInputPipeModule,
-    TuiDataListWrapperModule,
-    ReactiveFormsModule,
-    FormsModule,TuiToggleModule,
+    TuiDataListWrapperModule, 
+    TuiToggleModule,
     TuiFilterPipeModule,
     TuiDataListModule,
     TuiComboBoxModule,

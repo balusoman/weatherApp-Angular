@@ -22,7 +22,7 @@ import { CommonModule } from "@angular/common";
       TuiRootModule,TuiButtonModule,TuiDataListModule,TuiHostedDropdownModule
 ],
   providers: [
-    
+     
   ],
   bootstrap: [AppComponent],
   schemas:  [
