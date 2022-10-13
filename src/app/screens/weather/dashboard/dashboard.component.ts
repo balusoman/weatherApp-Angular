@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Chart, registerables, Tooltip } from 'chart.js';
+import { Aqi } from 'src/app/models/aqi';
+import { Weather } from 'src/app/models/weather';
+import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,12 +12,19 @@ import { Chart, registerables, Tooltip } from 'chart.js';
 })
 export class DashboardComponent implements OnInit {
 
-  demoData=[20,34,28,22]
-  chart:any=[]
   
 
-image :HTMLImageElement = new Image()
-  // image.src = "https://www.chartjs.org/img/chartjs-logo.svg";
+  weather!:Weather
+  aqi!:Aqi
+
+  AQIValue!:number;
+  AQIIndex!:number
+
+  demoData=[30,34,38,40]
+  chart:any=[]   
+  
+
+image :HTMLImageElement = new Image() 
 
   barAvatar= {
     id:'barAvatar',
@@ -38,13 +48,34 @@ image :HTMLImageElement = new Image()
   },
   }
 
-  constructor() {
+  constructor(private weatherService:WeatherService) { 
+    console.log("dashboard constructor")
+
+    
     this.image.src= "https://www.chartjs.org/img/chartjs-logo.svg";
     
     Chart.register(...registerables) 
    }
 
   ngOnInit(): void {
+
+    console.log("dashboard oninit")
+
+    this.weatherService.WeatherData.subscribe(res =>{
+      console.log(res) 
+      this.weather=res
+      
+    })
+
+     this.weatherService.AqiData.subscribe(res=>{
+      this.caclAqi(res)
+      this.aqi=res
+    }) 
+    
+
+    
+
+
     this.chart = new Chart('canvas',{ 
       plugins:[this.barAvatar],
     
@@ -126,51 +157,125 @@ image :HTMLImageElement = new Image()
       }]
 
       }
-    })
+    }) 
+    
   }
 
-  showTemp() {
+  
 
-    this.demoData=[23,34,26,30] 
+  onStart(){
 
+     
 
-    this.chart.data = {
-      labels:['mon','noon','eve','night'],
-      datasets: [{
-        label:'temperature',
-        data: this.demoData,
-        borderWidth:2,
-        borderColor: 'rgb(251 146 60)',
-        // fill:true, 
-        pointBackgroundColor:"rgb(255, 168, 98)",
-        tension:0.4,
-        // borderCapStyle: 'butt',
-        // borderDash: [10, 5],
-      }]
-    }
-    this.chart.update();
   }
 
-  showWind() {
+  // showTemp() { 
+  //   this.demoData=[23,34,26,30]  
+  //   this.chart.data = {
+  //     labels:['mon','noon','eve','night'],
+  //     datasets: [{
+  //       label:'temperature',
+  //       data: this.demoData,
+  //       borderWidth:2,
+  //       borderColor: 'rgb(251 146 60)',
+  //       // fill:true, 
+  //       pointBackgroundColor:"rgb(255, 168, 98)",
+  //       tension:0.4,
+  //       // borderCapStyle: 'butt',
+  //       // borderDash: [10, 5],
+  //     }]
+  //   }
+  //   this.chart.update();
+  // }
 
-    this.demoData=[35,24,35,20] 
+  // showWind() { 
+  //   this.demoData=[35,24,35,20]  
+  //   this.chart.data = {
+  //     labels:['mon','noon','eve','night'],
+  //     datasets: [{
+  //       label:'wind',
+  //       data: this.demoData,
+  //       borderWidth:2,
+  //       borderColor: 'rgb(251 146 60)',
+  //       // fill:true, 
+  //       pointBackgroundColor:"rgb(255, 168, 98)",
+  //       tension:0.4,
+  //       // borderCapStyle: 'butt',
+  //       // borderDash: [10, 5],
+  //     }]
+  //   }
+  //   this.chart.update();
+  // }
 
-
-    this.chart.data = {
-      labels:['mon','noon','eve','night'],
-      datasets: [{
-        label:'wind',
-        data: this.demoData,
-        borderWidth:2,
-        borderColor: 'rgb(251 146 60)',
-        // fill:true, 
-        pointBackgroundColor:"rgb(255, 168, 98)",
-        tension:0.4,
-        // borderCapStyle: 'butt',
-        // borderDash: [10, 5],
-      }]
+  caclAqi(data:Aqi){
+    if(data.components.pm2_5 <= 12.0){
+      var l_low = 0;
+      var l_high = 50;
+      var c_low = 0;
+      var c_high = 12;
+      var c = data.components.pm2_5; 
+      this.AQIValue = (l_high - l_low)/(c_high - c_low)*(c - c_low)+l_low;
+      this.AQIIndex = 1
     }
-    this.chart.update();
+    else if(data.components.pm2_5 > 12.0 && data.components.pm2_5<=35.4){
+      var l_low = 51;
+      var l_high = 100;
+      var c_low = 12.1;
+      var c_high = 35.4;
+      var c = data.components.pm2_5; 
+      this.AQIValue = (l_high - l_low)/(c_high - c_low)*(c - c_low)+l_low;
+      this.AQIIndex = 2
+    }
+    else if(data.components.pm2_5 > 35.4 && data.components.pm2_5 <= 55.4){
+      var l_low = 101;
+      var l_high = 150;
+      var c_low = 35.5;
+      var c_high = 55.4;
+      var c = data.components.pm2_5; 
+      this.AQIValue = (l_high - l_low)/(c_high - c_low)*(c - c_low)+l_low;
+      this.AQIIndex = 3
+    }
+    else if(data.components.pm2_5 > 55.4 && data.components.pm2_5 <= 150.4){
+      var l_low = 151;
+      var l_high = 200;
+      var c_low = 55.5;
+      var c_high = 150.4;
+      var c = data.components.pm2_5;
+      
+      this.AQIValue = (l_high - l_low)/(c_high - c_low)*(c - c_low)+l_low;
+      this.AQIIndex = 4
+    }
+    else if(data.components.pm2_5 > 150.4 && data.components.pm2_5 <= 250.4){
+      var l_low = 201;
+      var l_high = 300;
+      var c_low = 150.5;
+      var c_high = 250.4;
+      var c = data.components.pm2_5;
+      
+      this.AQIValue = (l_high - l_low)/(c_high - c_low)*(c - c_low)+l_low;
+      this.AQIIndex = 5
+    }
+    else if(data.components.pm2_5 > 250.4 && data.components.pm2_5 <= 350.4){
+      var l_low = 301;
+      var l_high = 400;
+      var c_low = 250.5;
+      var c_high = 350.4;
+      var c = data.components.pm2_5;
+      
+      this.AQIValue = (l_high - l_low)/(c_high - c_low)*(c - c_low)+l_low;
+      this.AQIIndex = 6
+    }
+    else if(data.components.pm2_5 >350.4 && data.components.pm2_5 <= 500.4){
+      var l_low = 401;
+      var l_high = 500;
+      var c_low = 350.5;
+      var c_high = 500.4;
+      var c = data.components.pm2_5;
+      
+      this.AQIValue = (l_high - l_low)/(c_high - c_low)*(c - c_low)+l_low;
+      this.AQIIndex = 7
+     
+    }
   }
 
 }
