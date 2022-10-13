@@ -1,4 +1,4 @@
-<div class="w-screen min-h-screen flex flex-col lg:flex-row h-auto lg:h-screen ">
+<div  class="w-screen min-h-screen flex flex-col lg:flex-row h-auto lg:h-screen ">
     <div class="w-full lg:w-8/12 h-full flex flex-col ">
         <div class=" h-12 sm:h-14 w-full px-2 sm:px-4 flex fixed z-30 lg:relative  justify-between ">
             <div class="w-auto pr-2 py-0  h-full flex flex-row justify-center items-center  ">
@@ -59,8 +59,8 @@
     <div class=" w-full md:w-2/6 h-full bg-slate-50 flex flex-col pb-4 ">
         <div class=" w-full text-orange-400 h-20 px-6 py-1 flex flex-row">
             <div class="h-full  w-64 flex flex-col justify-center ">
-                <span class="text-3xl">25 Sunday</span>
-                <span class="text-sm text-slate-600 tracking-wide">December 2022</span> 
+                <span class="text-3xl">{{day}} {{week}}</span>
+                <span class="text-sm text-slate-600 tracking-wide">{{month}} {{year}}</span> 
             </div>
 
             <!-- <span class="h-full w-36 flex text-slate-600  justify-center tracking-wider font-bold items-center text-2xl ">
@@ -99,7 +99,7 @@
                     <span class="dotleft absolute  ">
                         <span class="sunrise flex place-items-center absolute flex-col ">
                             <span class="  text-sm font-semibold  text-orange-400">Sunrise</span>
-                            <span class=" text-xs tracking-wide text-orange-400">05:55 am</span>
+                            <span class=" text-xs tracking-wide text-orange-400">{{sunrise}} am</span>
                         </span>
                     </span>
                     <div class="html    progressbar bg-orange-400   rounded-full "> 
@@ -109,7 +109,7 @@
                     <span class="dotright absolute ">
                         <span class="sunset flex  place-items-center flex-col ">
                             <span class="  text-sm font-semibold  text-orange-400">Sunset</span>
-                            <span class=" text-xs tracking-wide text-orange-400">06:30 pm</span>
+                            <span class=" text-xs tracking-wide text-orange-400">{{sunset}} pm</span>
                         </span>
                     </span> 
                 </div> 
@@ -122,13 +122,13 @@
 
 
         <div class=" w-full h-1/6 px-4 py-4 flex justify-center items-center">
-            <div class="w-80 bg-purple-900 h-full text-white  px-4 py-2 justify-between items-center rounded-2xl flex flex-row ">
+            <div *ngIf="weather"  class="w-80 bg-purple-900 h-full text-white  px-4 py-2 justify-between items-center rounded-2xl flex flex-row ">
                 <div class="w-12 h-12 ">
                     <img src="../../../assets/icons/cloudy (1).png" alt="">
                 </div>
                 <div class="flex flex-col flex-grow px-3 justify-center h-16 ">
                     <div class="flex flex-row  gap-2  items-center">
-                        <span class="text-2xl font-semibold">20 UVI</span>
+                        <span class="text-2xl font-semibold">[25] UVI</span>
 
                         <div
                         class="rounded-full px-2 h-3/5  flex justify-center items-center text-black text-xs font-semibold tracking-wide bg-yellow-300">

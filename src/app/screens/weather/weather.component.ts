@@ -5,6 +5,9 @@ import { ChangeDetectorRef, AfterContentChecked} from '@angular/core';
 
 import { Chart, registerables, Tooltip } from 'chart.js';
 import { WeatherService } from 'src/app/services/weather.service';
+import { Aqi } from 'src/app/models/aqi';
+import { Weather } from 'src/app/models/weather';
+import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-weather',
@@ -12,6 +15,17 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./weather.component.scss']
 })
 export class WeatherComponent implements OnInit {
+
+  weather!:Weather
+  aqi!:Aqi
+
+  currentData!:Date
+  month!:any
+  day!:number
+  year!:number
+  week!:string
+  sunrise!:any
+  sunset!:any
 
   
 
@@ -42,7 +56,7 @@ cities: readonly any[] = [
 
     this.citySearch.valueChanges.subscribe( cityname => { 
       if(cityname != null){ 
-        console.log(cityname)
+        // console.log(cityname)
 
         weatherService.getCoord(cityname) 
       }  
@@ -54,11 +68,44 @@ cities: readonly any[] = [
 
   ngOnInit(): void {
 
+    this.weatherService.getCoord('thrissur')
+
+
+
     this.weatherService.WeatherData.subscribe(res =>{
-      console.log(res)
+      // console.log(res)
+      this.weather=res
+
+      this.currentData = new Date(res.current.dt * 1000);
+// let dateString = this.currentData.getu;
+//       console.log(dateString)
+
+      let riseHour = new Date(res.current.sunrise).getUTCHours()
+      let riseMinute =new Date(res.current.sunrise).getUTCMinutes()
+      this.sunrise = `${riseHour}:${riseMinute}`
+      // console.log(this.sunrise)
+
+      let setHour = new Date(res.current.sunset).getUTCHours()
+      let setMinute =new Date(res.current.sunset).getUTCMinutes()
+      this.sunset = `${setHour}:${setMinute}`
+      // console.log(this.sunrise)
+
+
+      
+      // let demodate = Math.round(new Date(new Date().setDate(new Date().getDate() - 1 )).getTime() / 1000)
+      
+      // this.currentData = new Date() 
+      this.month = this.currentData.toLocaleString('default', { month: 'long' }); //months from 1-12
+      this.day = this.currentData.getUTCDate();
+      this.year = this.currentData.getUTCFullYear();
+      this.week = this.currentData.toLocaleString('en-us', {  weekday: 'long' })
+      // console.log(this.day,this.month,this.year,this.week)
+
+
     })
     this.weatherService.AqiData.subscribe(res=>{
-      console.log(res)
+      // console.log(res)
+      this.aqi=res
     })
  
   } 

@@ -9,7 +9,7 @@ import { Weather } from '../models/weather';
 export class WeatherService { 
 
   latitude!:number
-  longitude!:number
+  longitude!:number 
 
   WeatherData=new Subject<Weather>();
   AqiData=new Subject<Aqi>();  
@@ -23,7 +23,7 @@ export class WeatherService {
     .then(res => res.json()).then(data =>{  
       this.latitude = data[0].lat
       this.longitude = data[0].lon 
-      console.log(this.latitude,this.longitude) 
+      // console.log(this.latitude,this.longitude,data) 
     }).then(() =>{
       this.getWeatherData()
       this.getAirQualityData()
@@ -42,6 +42,12 @@ export class WeatherService {
     .then(res => res.json() ).then(data =>{ 
       // console.log(JSON.stringify(data.list[0]))
       this.AqiData.next(data.list[0]) 
+      
     })
   }
+
+  // getForcastData(){
+  //   let date = Math.round(new Date(new Date().setDate(new Date().getDate() - 1 )).getTime() / 1000)
+  //   fetch(`https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${this.latitude}&lon=${this.longitude}&dt=${date}&appid=${this.API_key}`)
+  // }
 }
