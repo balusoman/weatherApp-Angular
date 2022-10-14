@@ -12,15 +12,14 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class DashboardComponent implements OnInit {
 
-  
-
+  firstChartLoad:boolean=true
   weather!:Weather
   aqi!:Aqi
 
   AQIValue!:number;
   AQIIndex!:number
 
-  demoData=[30,34,38,40]
+  demoData=[0,0,0,0]
   chart:any=[]   
   
 
@@ -49,6 +48,9 @@ image :HTMLImageElement = new Image()
   }
 
   constructor(private weatherService:WeatherService) { 
+
+    
+
     console.log("dashboard constructor")
 
     
@@ -59,23 +61,42 @@ image :HTMLImageElement = new Image()
 
   ngOnInit(): void {
 
-    console.log("dashboard oninit")
-
-    this.weatherService.WeatherData.subscribe(res =>{
-      console.log(res) 
+    this.weatherService.WeatherData.subscribe(res =>{ 
       this.weather=res
-      
+      this.demoData=[res.daily[0].temp.morn,res.daily[0].temp.day,res.daily[0].temp.eve,res.daily[0].temp.night,]
+      // setTimeout(()=>{ 
+
+        if(this.firstChartLoad){
+          this.InitialChartJs() 
+          this.firstChartLoad=false 
+        }
+        else{
+          this.updateChart()
+        } 
+         
+        
+      // },2000)
     })
 
      this.weatherService.AqiData.subscribe(res=>{
       this.caclAqi(res)
       this.aqi=res
-    }) 
+    })  
+
+    console.log("dashboard oninit")  
+
+    // setTimeout(()=>{
+    //   console.log("timeout")
+    //    this.InitialChartJs()  
+    // },4000)
+ 
+     
     
+  }
+  
 
-    
 
-
+  InitialChartJs(){ 
     this.chart = new Chart('canvas',{ 
       plugins:[this.barAvatar],
     
@@ -158,15 +179,27 @@ image :HTMLImageElement = new Image()
 
       }
     }) 
-    
   }
 
   
+ 
 
-  onStart(){
-
-     
-
+  updateChart(){
+      this.chart.data = {
+      labels:['mon','noon','eve','night'],
+      datasets: [{
+        // label:'temperature',
+        data: this.demoData,
+        borderWidth:2,
+        borderColor: 'rgb(251 146 60)',
+        // fill:true, 
+        pointBackgroundColor:"rgb(255, 168, 98)",
+        tension:0.4,
+        // borderCapStyle: 'butt',
+        // borderDash: [10, 5],
+      }]
+    }
+    this.chart.update();
   }
 
   // showTemp() { 

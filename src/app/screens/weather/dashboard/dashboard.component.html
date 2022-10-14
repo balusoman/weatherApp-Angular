@@ -12,7 +12,7 @@
             </div>
 
             <div class="h-1/4 px-4 justify-center w-full flex flex-col">
-                <span class="text-4xl font-semibold text-black">{{ weather.current.temp - 273 | number: "1.0-0" }}&#8451;</span>
+                <span class="text-4xl font-semibold text-black">{{ weather.current.temp - 273 | number: "1.0-0" }}&deg;C</span>
                 <!-- <SPAN>  {{weather.current.temp}}</SPAN> -->
                 <span class="text-sm font-medium">{{weather.current.weather[0].description}}</span>
             </div>
@@ -65,7 +65,7 @@
                     <div class="w-full flex">
                         <label tuiProgressLabel class="w-full"> 
 
-                            <progress class="progress" tuiProgressBar size="s" [value]= AQIIndex color="orange"
+                            <progress class="progress" tuiProgressBar size="s" [value]=  aqi.main.aqi color="orange"
                                 [max]="7"></progress>
                         </label>
                     </div>
@@ -81,7 +81,7 @@
                 <span class="w-auto text-xl font-semibold">How's the <br> temparature today?</span>
                 <div class="  grid grid-cols-3 gap-2">
                     <button class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
-                    <button (click)="onStart()" class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
+                    <button  class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
                     <button class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
 
                 </div>
