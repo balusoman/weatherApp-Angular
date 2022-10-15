@@ -52,7 +52,7 @@
                         AQI
                     </div>
                 </div>
-                <span class="text-sm font-medium">Partialy Cloudy</span>
+                <span class="text-xs font-medium">wind speed : {{weather.daily[0].wind_speed| number: "1.0-0" }} km/h</span>
             </div>
 
             <div class="h-2/5 px-4 pt-4 w-full ">
@@ -65,7 +65,7 @@
                     <div class="w-full flex">
                         <label tuiProgressLabel class="w-full"> 
 
-                            <progress class="progress" tuiProgressBar size="s" [value]=  aqi.main.aqi color="orange"
+                            <progress class="progress" tuiProgressBar size="s" [value]= 4 color="orange"
                                 [max]="7"></progress>
                         </label>
                     </div>
@@ -79,12 +79,12 @@
         <div class="h-full w-full lg:w-8/12 px-4   flex flex-col justify-between ">
             <div class="w-full h-1/4  flex flex-row justify-between items-center">
                 <span class="w-auto text-xl font-semibold">How's the <br> temparature today?</span>
-                <div class="  grid grid-cols-3 gap-2">
+                <!-- <div class="  grid grid-cols-3 gap-2">
                     <button class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
                     <button  class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
                     <button class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
 
-                </div>
+                </div> -->
             </div>
             <div class="w-full h-1/2 ">
                 <canvas  id="canvas">{{chart}}</canvas>
