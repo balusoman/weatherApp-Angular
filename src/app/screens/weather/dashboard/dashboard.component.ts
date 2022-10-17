@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   AQIValue!:number;
   AQIIndex!:number
 
+  
   demoData=[0,0,0,0]
   chart:any=[]   
   
@@ -54,7 +55,7 @@ image :HTMLImageElement = new Image()
     console.log("dashboard constructor")
 
     
-    this.image.src= "https://www.chartjs.org/img/chartjs-logo.svg";
+    this.image.src= "../../../../assets/icons/sunshine.png";
     
     Chart.register(...registerables) 
    }
@@ -168,11 +169,15 @@ image :HTMLImageElement = new Image()
           data: this.demoData,
           borderWidth:2,
           borderColor: 'rgb(251 146 60)',
-          // fill:true, 
+          fill:true, 
           pointBackgroundColor:"rgb(255, 168, 98)",
           tension:0.4,
           // borderCapStyle: 'butt',
-          // borderDash: [10, 5],
+          // borderDash: [10, 5],  
+        //   backgroundColor: [
+        //    "rgb(205, 108, 98)" ,
+             
+        // ],
           
           
       }]

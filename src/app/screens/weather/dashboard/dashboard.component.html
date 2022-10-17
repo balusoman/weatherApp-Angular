@@ -1,39 +1,48 @@
 <div   class="w-full h-full pt-12 lg:pt-0 bg-white flex flex-col">
-    <div *ngIf="weather" class="h-1/2 w-full p-4 gap-4 flex flex-col md:flex-row">
-        <div class="w-full lg:w-1/2 h-full  shadow-lg rounded-xl justify-between py-4 flex flex-col">
-            <div class="h-1/4 items-center px-4 gap-4 w-full flex flex-row">
+    <div *ngIf="weather" class="h-1/2  w-full p-4 gap-4 flex flex-col md:flex-row">
+        <div class="w-full lg:w-1/2 h-full text-black
+        bg-no-repeat bg-cover bg-center
+        bg-[url('/../../../assets/images/image_processing20210307-5949-1k0i5rc.png')]
+         shadow-lg rounded-xl justify-between py-4 flex flex-col"
+        
+        >
+            <div class="h-1/4 bg-transparent items-center px-4 gap-4 w-full flex flex-row">
                 <div class="w-9 flex justify-center items-center">
                     <img src="../../../../assets/icons/sun.png" alt="" />
                 </div>
                 <div class="flex flex-col"> 
-                    <span class="font-semibold text-lg tracking-wide">Weather</span>
-                    <span>What's the weather.</span>
+                    <span class="font-semibold text-xl tracking-wide">Weather</span>
+                    <span class=" text-sm">What's the weather</span>
                 </div>
             </div>
 
             <div class="h-1/4 px-4 justify-center w-full flex flex-col">
-                <span class="text-4xl font-semibold text-black">{{ weather.current.temp - 273 | number: "1.0-0" }}&deg;C</span>
+                <span class="text-4xl font-semibold ">{{ weather.current.temp - 273 | number: "1.0-0" }}&deg;C</span>
                 <!-- <SPAN>  {{weather.current.temp}}</SPAN> -->
-                <span class="text-sm font-medium">{{weather.current.weather[0].description}}</span>
+                <span class="text-base  capitalize">{{weather.current.weather[0].description}}</span>
             </div>
 
             <div class="h-2/5 px-4 pt-4 w-full grid grid-cols-3 gap-2">
-                <div class="bg-yellow-500 rounded-xl shadow-xl flex flex-col justify-center items-center">
-                    <span class="text-white"> Pressure</span>
-                    <span class="font-semibold text-white tracking-wider">{{ weather.current.pressure }}mb</span>
+                <div class="bg-gradient-to-l from-yellow-900 to-amber-900 rounded-xl shadow-xl flex flex-col justify-center items-center">
+                    <span class="text-white  antialiased"> Pressure</span>
+                    <span class="font-semibold antialiased text-white tracking-wider">{{ weather.current.pressure }}mb</span>
                 </div>
-                <div class="bg-pink-500 rounded-xl shadow-xl flex flex-col justify-center items-center">
-                    <span class="text-white"> Visibility</span>
-                    <span class="font-semibold text-white tracking-wider">{{ weather.current.visibility / 1000 | number :'1.0-0' }}km</span>
+                <div class="bg-gradient-to-t from-slate-900 to-slate-800  rounded-xl text-white shadow-xl flex flex-col justify-center items-center">
+                    <span class="antialiased"> Visibility</span>
+                    <span class="font-semibold antialiased  tracking-wider">{{ weather.current.visibility / 1000 | number :'1.0-0' }}km</span>
                 </div>
-                <div class="bg-green-500 rounded-xl shadow-xl flex flex-col justify-center items-center">
-                    <span class="text-white"> Humidity</span>
-                    <span class="font-semibold text-white tracking-wider">{{ weather.current.humidity }}%</span>
+                <div class="bg-slate-50 rounded-xl shadow-xl flex flex-col justify-center items-center">
+                    <span class="text-primaryBlack"> Humidity</span>
+                    <span class="font-bold text-primaryBlack tracking-wider">{{ weather.current.humidity }}%</span>
                 </div>
             </div>
         </div>
 
-        <div class="w-full lg:w-1/2  h-full  shadow-lg rounded-xl justify-between py-4 flex flex-col">
+        <div class="w-full lg:w-1/2 
+        bg-no-repeat bg-contain bg-top
+        bg-[url('/../../../assets/images/original-dd295885b7d9d4cfd6cfebf309fd6618.jpg')]
+        
+        h-full  shadow-lg rounded-xl justify-between py-4 flex flex-col">
             <div class="h-1/4 items-center px-4 gap-4 w-full flex flex-row">
                 <div class="w-9 flex justify-center items-center">
                     <img src="../../../../assets/icons/wind.png" alt="" />
@@ -48,7 +57,7 @@
                 <div class="flex flex-row w-full">
                     <span class="font-semibold text-4xl">{{ AQIValue | number: "1.0-0" }}</span>
                     <div
-                        class="rounded-md px-2 h-3/5 ml-2 mt-1 flex justify-center items-center text-black text-sm font-semibold tracking-wide bg-yellow-300">
+                        class="rounded-md px-2 h-3/5 ml-2 mt-1 flex justify-center items-center text-black text-sm font-semibold tracking-wide bg-green-700">
                         AQI
                     </div>
                 </div>
@@ -56,7 +65,7 @@
             </div>
 
             <div class="h-2/5 px-4 pt-4 w-full ">
-                <div class="w-full h-full rounded-xl px-4 py-2 shadow-purple-300 shadow-md  flex flex-col justify-evenly bg-white">
+                <div class="w-full h-full rounded-xl px-4 py-2 shadow-lg flex flex-col justify-evenly bg-white bg-opacity-95">
                     <div class="flex flex-row w-full font-bold justify-between">
                         <span class="text-neutral-700">Good</span>
                         <span class="text-neutral-700">Hazardous</span>
@@ -65,7 +74,8 @@
                     <div class="w-full flex">
                         <label tuiProgressLabel class="w-full"> 
 
-                            <progress class="progress" tuiProgressBar size="s" [value]= 4 color="orange"
+                            <progress class="progress" tuiProgressBar size="s" [value]= aqi.main.aqi color="
+                            linear-gradient(to left, orange,green)"
                                 [max]="7"></progress>
                         </label>
                     </div>
@@ -76,7 +86,8 @@
         </div>
     </div>
     <div class="h-1/2 w-full  flex flex-col lg:flex-row gap-2 sm:flex-row">
-        <div class="h-full w-full lg:w-8/12 px-4   flex flex-col justify-between ">
+        <div class="h-full w-full 
+        lg:w-8/12 px-4   flex flex-col justify-between ">
             <div class="w-full h-1/4  flex flex-row justify-between items-center">
                 <span class="w-auto text-xl font-semibold">How's the <br> temparature today?</span>
                 <!-- <div class="  grid grid-cols-3 gap-2">
@@ -112,7 +123,10 @@
 
         </div>
         <div *ngIf="weather" class="h-full w-full lg:w-4/12 pr-4">
-            <div class="h-full w-full bg-white rounded-2xl shadow-lg flex flex-col p-6 justify-between">
+            <div class="h-full w-full bg-white  text-white rounded-2xl
+            bg-no-repeat bg-cover bg-center
+        bg-[url('/../../../assets/images/image_processing20211002-4132-atsai.png')]
+            shadow-lg flex flex-col p-6 justify-between">
                 <div class="w-full flex flex-col">
                     <span class="text-base font-semibold ">Tomorrow</span>
                     <span class="pt-1 font-semibold text-2xl">{{weather.daily[1].weather[0].description}}</span>

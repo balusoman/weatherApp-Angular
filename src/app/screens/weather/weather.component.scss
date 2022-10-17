@@ -84,9 +84,13 @@ height: 40px;
 .earth{
     width: 30px;
     height: 30px;
-    background-color: rgb(255, 168, 98);
+    // background-color: rgb(255, 168, 98);
     margin-top: 62px;
     margin-left: -35px;
+    background-image: url(../../../assets/icons/sun_PNG13426.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
 }
 
@@ -98,7 +102,7 @@ height: 40px;
 
 @keyframes progress-animation{
     0% {width: 0%;}
-    100% {width: $target;}
+    100% {width: $target;} 
 }
 
 @keyframes spin-right{
