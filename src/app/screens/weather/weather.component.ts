@@ -1,7 +1,8 @@
-import { Component, HostBinding, Injector, OnInit, Self } from '@angular/core';
+import { Component, ElementRef, HostBinding, Injector, OnInit, Renderer2, Self, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
 import { tuiPure, TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
 import { ChangeDetectorRef, AfterContentChecked} from '@angular/core';
+
 
 import { Chart, registerables, Tooltip } from 'chart.js';
 import { WeatherService } from 'src/app/services/weather.service';
@@ -28,18 +29,17 @@ export class WeatherComponent implements OnInit {
   sunrise!:any
   sunset!:any
 
-  currentDate:any
+  currentDate:any 
 
-  
+darkMode = new FormControl(false); 
+darkScreenMode!:boolean
 
- 
-  testForm = new FormGroup({
-    darkMode : new FormControl(false)
-}); 
+
 
 citySearch = new FormControl(null, [
   Validators.required,
 ]); 
+searchFocus:boolean=false
 
 search:any="";
 cities: readonly any[] = [
@@ -51,24 +51,40 @@ cities: readonly any[] = [
   'delhi',
   'thrissur'
 ];
-   
+
+
+expanddiv:boolean=false;
+ 
+@ViewChild('forecast') forecast:ElementRef|any;
 
   @HostBinding('style.--target-width') private targetWidth: string = '0%';
   @HostBinding('style.--target-rotate') private rotate: string = '0deg';
 
-  constructor(private weatherService:WeatherService) {
+  constructor(private weatherService:WeatherService,private renderer: Renderer2 ) {
 
     this.citySearch.valueChanges.subscribe( cityname => { 
       if(cityname != null){  
-        weatherService.getCoord(cityname) 
+        weatherService.getCoord(cityname)  
+        
       }  
     }); 
+
+    this.darkMode.valueChanges.subscribe(res=>{ 
+      if(this.darkMode.value == true){
+         this.darkScreenMode = true 
+      }
+      else{
+        this.darkScreenMode=false
+      }
+       
+      
+    })
 
 
  
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
 
     this.weatherService.getCoord('thrissur') 
 
@@ -78,13 +94,26 @@ cities: readonly any[] = [
       
       this.setDate()
       
+      
 
 
     }) 
  
-  } 
+  }  
 
-  setDate(){
+
+  expand(){ 
+    this.expanddiv = !this.expanddiv
+    if(this.expanddiv == false){
+      var height = `50%`;
+    }
+    else{
+      var height = `86%`;
+    } 
+  this.renderer.setStyle(this.forecast.nativeElement, "height", height);
+  }
+
+  setDate(){ 
     // set Current DATE
     this.currentDate = new Date(this.weather.current.dt * 1000);   
     // set Current TIME
@@ -107,9 +136,9 @@ cities: readonly any[] = [
     this.year = this.currentDate.getUTCFullYear();
     this.week = this.currentDate.toLocaleString('en-us', {  weekday: 'long' })
     
-    console.log(this.time)
-    console.log(this.sunrise)
-    console.log(this.sunset) 
+    // console.log(this.time)
+    // console.log(this.sunrise)
+    // console.log(this.sunset) 
 
    
    if(this.time == this.sunrise){
@@ -118,7 +147,7 @@ cities: readonly any[] = [
     }
 
    else if(this.time > this.sunrise && this.time < this.sunset){ 
-    console.log("middele")
+    // console.log("middele")
       if(this.time <= '07:00' ){
         this.targetWidth= '8.33%'
 
@@ -186,10 +215,10 @@ cities: readonly any[] = [
    else if(this.time >= this.sunset){
       this.targetWidth ='100%'
       this.rotate = '175deg'
-      console.log("sunset is start")
+      // console.log("sunset is start")
     } 
     else{
-      console.log("test")
+      // console.log("test")
     }
   }
 
@@ -201,5 +230,14 @@ cities: readonly any[] = [
       return [];
       
     }  
+ 
+
+    focus(){ 
+      this.searchFocus=!this.searchFocus  
+      if(this.search != ''){
+        this.searchFocus = true
+      }  
+    }
+    
 
 }
