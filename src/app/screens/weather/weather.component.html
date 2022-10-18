@@ -41,8 +41,27 @@
                     </tui-data-list-wrapper>
                 </tui-combo-box>
             </div>
-            <div class=" hidden md:block h-full w-20 ">
-
+            <div class=" hidden  h-full lg:flex flex-col items-center gap-4 w-20  py-14 ">
+                <a routerLink="./dashboard" class=" w-10 h-10 flex justify-center bg-orange-400 rounded-md shadow-2xl items-center">
+                    <span class="material-symbols-outlined  text-3xl">
+                        dashboard
+                        </span>
+                </a> 
+                <a routerLink="./info" class=" w-10 h-10 flex justify-center items-center">
+                    <span class="material-symbols-outlined  text-3xl">
+                        insights
+                        </span>
+                </a>
+                <a routerLink="./" class=" w-10 h-10 flex justify-center items-center">
+                    <span class="material-symbols-outlined text-3xl">
+                        calendar_month
+                        </span>
+                </a>
+                <a routerLink="./" class=" w-10 h-10 flex justify-center items-center">
+                    <span class="material-symbols-outlined text-3xl">
+                        thermostat
+                        </span>
+                </a>
             </div>
             <div class="flex-grow p-1 sm:p-4  w-full h-full">
                 <router-outlet></router-outlet>
