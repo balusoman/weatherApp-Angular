@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { observable, Observable, Subject } from 'rxjs';
 import { Aqi } from '../models/aqi';
 import { Weather } from '../models/weather';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class WeatherService {
 
   API_key="8038a1909033301585eb00d07f25c65b";
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
   getCoord(cityname:string) {
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityname}&limit=1&appid=${this.API_key}`)
