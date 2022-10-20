@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TuiLoaderModule,TuiDataListModule,TuiLabelModule} from '@taiga-ui/core';
+import { TuiLoaderModule,TuiDataListModule,TuiCalendarModule,TuiLabelModule} from '@taiga-ui/core';
 import { TuiFilterPipeModule,} from "@taiga-ui/cdk";
 import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListWrapperModule,TuiToggleModule,TuiProgressModule} from '@taiga-ui/kit';
 
@@ -21,7 +21,8 @@ import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListW
     TuiDataListModule,
     TuiComboBoxModule,
     TuiLabelModule,
-    TuiProgressModule
+    TuiProgressModule,
+    TuiCalendarModule
   ],
   exports:[
     TuiLoaderModule,
@@ -33,7 +34,8 @@ import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListW
     TuiDataListModule,
     TuiComboBoxModule,
     TuiLabelModule,
-    TuiProgressModule
+    TuiProgressModule,
+    TuiCalendarModule
   ]
 })
 export class TaigaUiModule { }

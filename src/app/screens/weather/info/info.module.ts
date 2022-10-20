@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { InfoRoutingModule } from './info-routing.module';
 import { InfoComponent } from './info.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
 
 
 @NgModule({
@@ -11,7 +13,8 @@ import { InfoComponent } from './info.component';
   ],
   imports: [
     CommonModule,
-    InfoRoutingModule
+    InfoRoutingModule,
+    ClipboardModule,
   ]
 })
 export class InfoModule { }

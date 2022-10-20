@@ -139,6 +139,7 @@
 
 
         </div>
+       
         <div #forecast class=" w-full absolute bottom-0 bg-slate-50   h-1/2 px-8 pb-4  ">
 
             <button *ngIf="expanddiv" (click)="expand()"
@@ -152,16 +153,16 @@
             <div class="h-full w-full flex flex-col items-center pt-8 ">
                 <span class="text-2xl font-semibold text-slate-600 ">Weather Prediction</span>
                 <div class="w-full flex flex-col gap-2 flex-grow items-center justify-around pt-2">
-
+                     
 
                     <ng-container *ngIf="expanddiv">
-                        <div *ngFor="let day of weather?.daily | slice:2:7"
+                        <div *ngFor="let day of weatherData?.daily | slice:2:7"
                             class="h-2/6 w-full flex px-4 bg-white items-center rounded-xl shadow-md">
                             <div class="w-12 h-12 ">
                                 <img src="../../../assets/icons/cloudy (1).png" alt="">
                             </div>
                             <div class="flex h-full flex-grow   px-2 flex-col justify-center">
-                                <span class="text-gray-500  text-md">{{day.dt| datepipe}}</span>
+                                <span class="text-gray-500  text-md">{{day?.dt | datepipe}}</span>
                                 <div class="flex flex-col ">
                                     <!-- <span class="text-lg font-medium leading-tight">{{day.weather[0].main}}</span> -->
                                     <span class="text-sm ">{{day.weather[0].description}}</span>
@@ -196,7 +197,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="!expanddiv">
-                        <div *ngFor="let day of weather?.daily | slice:2:4"
+                        <div *ngFor="let day of weatherData?.daily | slice:2:4"
                             class="h-2/6 w-full flex px-4 bg-white items-center rounded-xl shadow-md">
                             <div class="w-12 h-12 ">
                                 <img src="../../../assets/icons/cloudy (1).png" alt="">
@@ -204,9 +205,9 @@
                             <div class="flex h-full flex-grow  px-2 flex-col justify-center">
                                 <span class="text-gray-500  text-md">{{day.dt | datepipe}}</span>
                                 <div class="w-full flex flex-row justify-between items-center">
-                                    <span class="text-lg font-semibold">Cloudy</span>
-                                    <span class="text-orange-400 text-base font-semibold">{{ 323 - 273 | number: "1.0-0"
-                                        }}&deg;/{{ 320 - 273 | number: "1.0-0" }}&deg; </span>
+                                    <span class="text-lg font-medium">{{day.weather[0].description}}</span>
+                                    <span class="text-orange-400 text-base font-semibold">{{ day.temp.max - 273 | number: "1.0-0"
+                                        }}&deg;/{{ day.temp.min - 273 | number: "1.0-0" }}&deg; </span>
                                 </div>
                             </div>
                         </div>
@@ -259,5 +260,12 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="absolute h-96 w-72 bg-green-300 top-36 right-0">
+            <tui-calendar
+            
+    [value]="calenderValue"
+    (dayClick)="onDayClick($event)"
+></tui-calendar> 
+        </div> -->
     </div>
 </div>
