@@ -1,7 +1,6 @@
 import { Component, ElementRef, HostBinding, Injector, OnInit, Renderer2, Self, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
-import { tuiPure, TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
-import { ChangeDetectorRef, AfterContentChecked} from '@angular/core';
+import { TuiDay, tuiPure, TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
 
 
 import { Chart, registerables, Tooltip } from 'chart.js';
@@ -17,19 +16,23 @@ import { Data } from '@angular/router';
 })
 export class WeatherComponent implements OnInit {
 
-  weather!:Weather
-  aqi!:Aqi
+   
+  calenderValue: TuiDay | null = null;
 
-  currentData!:Date
+  cityData!:any 
+  weatherData!:Weather  
+
   time:any;
   month!:any
-  day!:number
+  day!:any
   year!:number
   week!:string
   sunrise!:any
-  sunset!:any
-
+  sunset!:any 
   currentDate:any 
+
+   
+
 
 darkMode = new FormControl(false); 
 darkScreenMode!:boolean
@@ -64,8 +67,14 @@ expanddiv:boolean=false;
 
     this.citySearch.valueChanges.subscribe( cityname => { 
       if(cityname != null){  
-        weatherService.getCoord(cityname)  
-        
+        weatherService.searchedCity.next(cityname)
+        // weatherService.getCoordinates(cityname)
+        this.weatherService.getCoordinates(cityname).subscribe(res=>{
+          this.cityData = res[0]  
+          this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
+            this.weatherData= res  
+          })
+        })
       }  
     }); 
 
@@ -85,19 +94,31 @@ expanddiv:boolean=false;
   }
 
   ngOnInit(): void { 
+    this.weatherService.searchedCity.subscribe(res=>{
+      this.weatherService.getCoordinates(res).subscribe(res=>{
+        this.cityData = res[0]
+        // console.log(this.cityData)
+        this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
+          this.weatherData= res 
+          this.setDate()
+          // console.log(this.weatherData)
+        })
+      })
+    })
 
-    this.weatherService.getCoord('thrissur') 
+    
+    
 
-    this.weatherService.WeatherData.subscribe(res =>{ 
-      this.weather=res
-      console.log(this.weather)
+    // this.weatherService.WeatherData.subscribe(res =>{ 
+    //   this.weather=res
+    //   console.log(this.weather)
       
-      this.setDate()
+    //   this.setDate()
       
       
 
 
-    }) 
+    // }) 
  
   }  
 
@@ -111,11 +132,11 @@ expanddiv:boolean=false;
       var height = `86%`;
     } 
   this.renderer.setStyle(this.forecast.nativeElement, "height", height);
-  }
+  } 
 
-  setDate(){ 
+  setDate(){  
     // set Current DATE
-    this.currentDate = new Date(this.weather.current.dt * 1000);   
+    this.currentDate = new Date(this.weatherData.current.dt * 1000);   
     // set Current TIME
     let Time = this.currentDate.toTimeString()
     let setTime =  Time.split(":",2) 
@@ -123,11 +144,11 @@ expanddiv:boolean=false;
     // this.time = '06:15'
 
     // set SUNRICE
-    let sunRiceString =  new Date(this.weather.current.sunrise * 1000).toTimeString()
+    let sunRiceString =  new Date(this.weatherData.current.sunrise * 1000).toTimeString()
     let setSunrise =  sunRiceString.split(":",2) 
     this.sunrise = `${setSunrise[0]}:${setSunrise[1]}` 
     // set SUNSET
-    let sunSetString =  new Date(this.weather.current.sunset * 1000).toTimeString()
+    let sunSetString =  new Date(this.weatherData.current.sunset * 1000).toTimeString()
     let setSunset:any =  sunSetString.split(":",2)  
     this.sunset = `${setSunset[0]}:${setSunset[1]}`  
     // set MONTH DATE WEEK YEAR
@@ -218,9 +239,10 @@ expanddiv:boolean=false;
       // console.log("sunset is start")
     } 
     else{
-      // console.log("test")
+      console.log("test")
     }
   }
+  
 
   @tuiPure
     filter(search: string | null): readonly string[] {
@@ -238,6 +260,18 @@ expanddiv:boolean=false;
         this.searchFocus = true
       }  
     }
+
+  //   onDayClick(day: TuiDay): void {
+  //     this.calenderValue = day;
+  //     console.log(this.calenderValue.day)
+  //     let newDate=new Date(this.calenderValue.year,this.calenderValue.month,this.calenderValue.day).getTime()/1000
+  //     console.log(newDate)
+  //     console.log(this.cityData.lat,this.cityData.lon)
+  //     this.weatherService.getHistoricData(this.cityData.lat,this.cityData.lon,
+  //       newDate ).subscribe(res=>{
+  //         console.log(res)
+  //       })
+  // }
     
 
 }

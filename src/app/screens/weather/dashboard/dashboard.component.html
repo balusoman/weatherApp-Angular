@@ -1,5 +1,5 @@
-<div   class="w-full h-full pt-12 lg:pt-0 bg-white flex flex-col">
-    <div *ngIf="weather" class="h-1/2  w-full p-4 gap-4 flex flex-col md:flex-row">
+<div  class="w-full h-full pt-12 lg:pt-0 bg-white flex flex-col">
+    <div *ngIf="weatherData" class="h-1/2  w-full p-4 gap-4 flex flex-col md:flex-row">
         <div class="w-full lg:w-1/2 h-full text-black
         bg-no-repeat bg-cover bg-center
         bg-[url('/../../../assets/images/image_processing20210307-5949-1k0i5rc.png')]
@@ -13,27 +13,31 @@
                 <div class="flex flex-col"> 
                     <span class="font-semibold text-xl tracking-wide">Weather</span>
                     <span class=" text-sm">What's the weather</span>
+                    <!-- {{cityData?.name}}
+                    {{weatherData?.current?.temp}}
+                    <br>
+                    {{aqiData?.main?.aqi}} -->
                 </div>
             </div>
 
             <div class="h-1/4 px-4 justify-center w-full flex flex-col">
-                <span class="text-4xl font-semibold ">{{ weather.current.temp - 273 | number: "1.0-0" }}&deg;C</span>
+                <span class="text-4xl font-semibold ">{{ weatherData?.current?.temp - 273 | number: "1.0-0" }}&deg;C</span>
                 <!-- <SPAN>  {{weather.current.temp}}</SPAN> -->
-                <span class="text-base  capitalize">{{weather.current.weather[0].description}}</span>
+                <span class="text-base  capitalize">description</span>
             </div>
 
             <div class="h-2/5 px-4 pt-4 w-full grid grid-cols-3 gap-2">
                 <div class="bg-gradient-to-l from-yellow-900 to-amber-900 rounded-xl shadow-xl flex flex-col justify-center items-center">
                     <span class="text-white  antialiased"> Pressure</span>
-                    <span class="font-semibold antialiased text-white tracking-wider">{{ weather.current.pressure }}mb</span>
+                    <span class="font-semibold antialiased text-white tracking-wider">{{ weatherData?.current?.pressure }}mb</span>
                 </div>
                 <div class="bg-gradient-to-t from-slate-900 to-slate-800  rounded-xl text-white shadow-xl flex flex-col justify-center items-center">
                     <span class="antialiased"> Visibility</span>
-                    <span class="font-semibold antialiased  tracking-wider">{{ weather.current.visibility / 1000 | number :'1.0-0' }}km</span>
+                    <span class="font-semibold antialiased  tracking-wider">{{ weatherData?.current?.visibility / 1000 | number :'1.0-0' }}km</span>
                 </div>
                 <div class="bg-slate-50 rounded-xl shadow-xl flex flex-col justify-center items-center">
                     <span class="text-primaryBlack"> Humidity</span>
-                    <span class="font-bold text-primaryBlack tracking-wider">{{ weather.current.humidity }}%</span>
+                    <span class="font-bold text-primaryBlack tracking-wider">{{ weatherData?.current?.humidity }}%</span>
                 </div>
             </div>
         </div>
@@ -61,7 +65,7 @@
                         AQI
                     </div>
                 </div>
-                <span class="text-xs font-medium">wind speed : {{weather.daily[0].wind_speed| number: "1.0-0" }} km/h</span>
+                <span class="text-xs font-medium">wind speed : {{ weatherData?.current?.wind_speed  | number: "1.0-0" }} km/h</span>
             </div>
 
             <div class="h-2/5 px-4 pt-4 w-full ">
@@ -74,7 +78,7 @@
                     <div class="w-full flex">
                         <label tuiProgressLabel class="w-full"> 
 
-                            <progress class="progress" tuiProgressBar size="s" [value]= aqi.main.aqi color="
+                            <progress class="progress" tuiProgressBar size="s" [value]= aqiData?.main?.aqi color="
                             linear-gradient(to left, orange,green)"
                                 [max]="7"></progress>
                         </label>
@@ -88,7 +92,7 @@
     <div class="h-1/2 w-full  flex flex-col lg:flex-row gap-2 sm:flex-row">
         <div class="h-full w-full 
         lg:w-8/12 px-4   flex flex-col justify-between ">
-            <div class="w-full h-1/4  flex flex-row justify-between items-center">
+            <div *ngIf="weatherData" class="w-full h-1/4  flex flex-row justify-between items-center">
                 <span class="w-auto text-xl font-semibold">How's the <br> temparature today?</span>
                 <!-- <div class="  grid grid-cols-3 gap-2">
                     <button class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
@@ -100,10 +104,10 @@
             <div class="w-full h-1/2 ">
                 <canvas  id="canvas">{{chart}}</canvas>
             </div>
-            <div class="w-full h-1/5  flex flex-row justify-between ">
+            <div *ngIf="weatherData" class="w-full h-1/5  flex flex-row justify-between ">
 
                 <div class="flex flex-col justify-center items-center" >
-                    <span class="font-semibold text-lg text-black ">{{demoData[0] - 273 | number: "1.0-0"}}&deg;</span>
+                    <span class="font-semibold text-lg text-black ">{{demoData[0]- 273 | number: "1.0-0"}}&deg;</span>
                             <span class="text-base text-zinc-600"> Morning </span>
                 </div>
 
@@ -122,17 +126,17 @@
             </div>
 
         </div>
-        <div *ngIf="weather" class="h-full w-full lg:w-4/12 pr-4">
+        <div *ngIf="weatherData" class="h-full w-full lg:w-4/12 pr-4">
             <div class="h-full w-full bg-white  text-white rounded-2xl
             bg-no-repeat bg-cover bg-center
         bg-[url('/../../../assets/images/image_processing20211002-4132-atsai.png')]
             shadow-lg flex flex-col p-6 justify-between">
                 <div class="w-full flex flex-col">
                     <span class="text-base font-semibold ">Tomorrow</span>
-                    <span class="pt-1 font-semibold text-2xl">{{weather.daily[1].weather[0].description}}</span>
+                    <span class="pt-1 font-semibold text-2xl">{{weatherData?.daily[1]?.weather[0]?.description}}</span>
                 </div>
                 <div class="flex flex-col">
-                    <span class="pb-1 font-semibold text-3xl">{{ weather.daily[1].temp.max - 273 | number :'1.0-0'}}&#8451;</span>
+                    <span class="pb-1 font-semibold text-3xl">{{ weatherData?.daily[1]?.temp?.max - 273 | number :'1.0-0'}}&#8451;</span>
                     <span  class="text-base font-semibold">Rain</span>
                 </div>
             </div>

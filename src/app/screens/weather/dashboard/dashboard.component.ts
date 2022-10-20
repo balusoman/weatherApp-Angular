@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Chart, registerables, Tooltip } from 'chart.js';
+import { Observable, switchMap } from 'rxjs';
 import { Aqi } from 'src/app/models/aqi';
 import { Weather } from 'src/app/models/weather';
 import { WeatherService } from 'src/app/services/weather.service';
@@ -12,19 +13,19 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class DashboardComponent implements OnInit {
 
-  firstChartLoad:boolean=true
-  weather!:Weather
-  aqi!:Aqi
+   
+  cityData!:any
+  weatherData!:any 
+  aqiData!:any
 
   AQIValue!:number;
   AQIIndex!:number
 
-  
-  demoData=[0,0,0,0]
-  chart:any=[]   
-  
+  demoData!:any[]
+  firstChartLoad:boolean=true
+  chart:any=[]  
 
-image :HTMLImageElement = new Image() 
+  image :HTMLImageElement = new Image() 
 
   barAvatar= {
     id:'barAvatar',
@@ -47,24 +48,17 @@ image :HTMLImageElement = new Image()
       // ctx.restore();
   },
   }
+ 
 
   constructor(private weatherService:WeatherService) { 
 
-    
-
-    console.log("dashboard constructor")
-
-    
-    this.image.src= "../../../../assets/icons/sunshine.png";
-    
-    Chart.register(...registerables) 
-   }
-
-  ngOnInit(): void {
-
-    this.weatherService.WeatherData.subscribe(res =>{ 
-      this.weather=res
-      this.demoData=[res.daily[0].temp.morn,res.daily[0].temp.day,res.daily[0].temp.eve,res.daily[0].temp.night,]
+    weatherService.searchedCity.subscribe(res =>{
+      this.weatherService.getCoordinates(res).subscribe(res=>{
+        this.cityData = res[0]
+        // console.log(this.cityData)
+        this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
+          this.weatherData= res 
+          this.demoData=[res.daily[0].temp.morn,res.daily[0].temp.day,res.daily[0].temp.eve,res.daily[0].temp.night,]
       // setTimeout(()=>{ 
 
         if(this.firstChartLoad){
@@ -74,28 +68,46 @@ image :HTMLImageElement = new Image()
         else{
           this.updateChart()
         } 
-         
-        
-      // },2000)
+          // console.log(this.weatherData)
+        })
+        this.weatherService.getAirQualityData(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
+          this.aqiData= res.list[0]
+          // console.log(this.aqiData)
+          this.caclAqi(this.aqiData)
+        })
+      })
     })
 
-     this.weatherService.AqiData.subscribe(res=>{
-      this.caclAqi(res)
-      this.aqi=res
-    })  
+
+    this.image.src= "../../../../assets/icons/sunshine.png";
+    
+    Chart.register(...registerables) 
+
+    
+
+    
+
+    
+
+    console.log("dashboard constructor")
+
+    
+     
+   }
+
+  ngOnInit(): void {
+    
+
+     
+ 
 
     console.log("dashboard oninit")  
 
-    // setTimeout(()=>{
-    //   console.log("timeout")
-    //    this.InitialChartJs()  
-    // },4000)
+     
  
      
     
   }
-  
-
 
   InitialChartJs(){ 
     this.chart = new Chart('canvas',{ 
@@ -207,44 +219,6 @@ image :HTMLImageElement = new Image()
     this.chart.update();
   }
 
-  // showTemp() { 
-  //   this.demoData=[23,34,26,30]  
-  //   this.chart.data = {
-  //     labels:['mon','noon','eve','night'],
-  //     datasets: [{
-  //       label:'temperature',
-  //       data: this.demoData,
-  //       borderWidth:2,
-  //       borderColor: 'rgb(251 146 60)',
-  //       // fill:true, 
-  //       pointBackgroundColor:"rgb(255, 168, 98)",
-  //       tension:0.4,
-  //       // borderCapStyle: 'butt',
-  //       // borderDash: [10, 5],
-  //     }]
-  //   }
-  //   this.chart.update();
-  // }
-
-  // showWind() { 
-  //   this.demoData=[35,24,35,20]  
-  //   this.chart.data = {
-  //     labels:['mon','noon','eve','night'],
-  //     datasets: [{
-  //       label:'wind',
-  //       data: this.demoData,
-  //       borderWidth:2,
-  //       borderColor: 'rgb(251 146 60)',
-  //       // fill:true, 
-  //       pointBackgroundColor:"rgb(255, 168, 98)",
-  //       tension:0.4,
-  //       // borderCapStyle: 'butt',
-  //       // borderDash: [10, 5],
-  //     }]
-  //   }
-  //   this.chart.update();
-  // }
-
   caclAqi(data:Aqi){
     if(data.components.pm2_5 <= 12.0){
       var l_low = 0;
@@ -315,5 +289,12 @@ image :HTMLImageElement = new Image()
      
     }
   }
+ 
+
+  
+  
+
+
+   
 
 }

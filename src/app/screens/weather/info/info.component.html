@@ -1,3 +1,80 @@
-<div class="w-full h-full bg-white">
-    <h1>info</h1>
+<div class="w-full h-full relative pt-12 lg:pt-0   flex flex-col">
+    <div *ngIf="weatherData" class="w-full h-1/4   flex flex-row justify-between ">
+        <div class="flex flex-col h-full ">
+            <div class="flex flex-row gap-2 items-center ">
+                <div class="w-20 h-20 bg-orange-400">
+
+                </div>
+                <div>
+                    <span class="text-4xl">{{weatherData.current.temp - 273 | number: "1.0-0" }}&deg;C</span>
+                </div>
+                <div class="flex flex-col text-base justify-between">
+                    <span> Pressure:<span class="font-semibold">{{ weatherData.current.pressure }}mb</span></span>
+                    <span>Humidity: <span class="font-semibold">{{ weatherData.current.humidity}}%</span></span>
+                    <span>Wind: <span class="font-semibold">{{ weatherData.current.wind_speed  | number: "1.0-0" }} km/h</span></span>
+                </div>
+            </div>
+            <div class="w-full text-lg gap-4 py-4 flex flex-row">
+                <span>temperature</span>
+                <span>pressure</span> 
+                <span>wind</span>
+            </div>
+        </div>
+        <div class="flex flex-col h-full pr-4 text-2xl ">
+
+            <span>{{cityData?.name}} {{cityData?.state}}</span>
+                <span  class="text-sm tracking-wide flex justify-center items-center">latitude:&nbsp; &nbsp; <span #latitude class="font-semibold">{{cityData?.lat}}</span> &nbsp;
+                <button
+                (click)="copyText(cityData?.lat)"
+                 class="material-symbols-outlined mb-0.5 text-base font-semibold text-orange-300">
+                    content_copy
+                    </button></span>
+
+                <span class="text-sm tracking-wide flex justify-center items-center">longitude:<span class="font-semibold">{{cityData?.lon}}</span>&nbsp;
+                <button
+                (click)="copyText(cityData?.lat)"
+                 class="material-symbols-outlined mb-0.5 text-base font-semibold text-orange-300">
+                    content_copy
+                    </button></span>
+                 
+        </div>
+    </div>
+
+
+    <div class="w-full h-56 bg-black">
+        <canvas  id="canvas1">{{chart1}}</canvas>
+        
+    </div>  
+    <div *ngIf="weatherData" class="w-full h-10 text-base font-semibold text-slate-600  flex flex-row justify-between pr-2 ">
+        <span>Morning</span>
+        <span>Noon</span>
+        <span>Evening</span>
+        <span>Night</span>
+    </div>
+    <div *ngIf="weatherData" class="w-full h-32  grid grid-cols-5 gap-2">
+        <button (click)="show(day)"  *ngFor="let day of weatherData.daily | slice:0:5 " class="  flex flex-col justify-center items-center rounded-lg shadow-xl">
+            <span class="text-xs font-semibold">{{day.dt *1000 | date}}</span>
+            <div class="w-14  h-14 bg-orange-400">
+
+            </div>
+            <span class="text-lg font-medium">{{day.temp.max - 273 | number: "1.0-0" }}&deg; 
+                <span class="text-sm text-slate-700">{{day.temp.min - 273 | number: "1.0-0" }}&deg;</span>
+            </span>
+        </button>
+        <!-- <div class="bg-black"></div>
+        <div class="bg-black"></div>
+        <div class="bg-black"></div>
+        <div class="bg-black"></div>
+        <div class="bg-black"></div>
+        <div class="bg-black"></div> -->
+    </div>  
+    <div *ngIf="weatherData" class="flex flex-grow mt-4 bg-green-400 justify-center items-center">
+        <button>More Info</button>
+    </div>
+    <!-- <div class="flex h-5/6 w-full absolute bottom-0 bg-slate-100 ">
+       Latitude: {{cityData?.lat }}  longitude: {{cityData?.lon}}
+
+
+
+    </div> -->
 </div>
