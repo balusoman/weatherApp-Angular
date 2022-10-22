@@ -11,6 +11,7 @@ import { PagenotfoundComponent } from './screens/pagenotfound/pagenotfound.compo
 import { CommonModule } from "@angular/common";  
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +22,7 @@ import { CommonModule } from "@angular/common";
     CommonModule,
     HttpClientModule,
     AppRoutingModule,
+   
    
     
       BrowserAnimationsModule, 

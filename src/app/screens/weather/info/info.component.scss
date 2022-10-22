@@ -1,0 +1,17 @@
+@import 'swiper/scss';
+@import 'swiper/scss/navigation';
+@import 'swiper/scss/pagination';
+
+.swiper-button-next,.swiper-button-prev
+{
+    color: orange; 
+     
+}  
+.swiper-wrapper{
+    padding-top: 20px;
+    padding-bottom: 20px; 
+}
+.swiper-slide{ 
+    height: 95%;
+    width: 18% !important; 
+} 
