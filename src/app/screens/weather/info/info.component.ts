@@ -49,7 +49,7 @@ export class InfoComponent implements OnInit {
  
             // this.getHistoty() 
 
-          console.log(this.weatherData)
+          // console.log(this.weatherData)
          
           this.tempData=[res.daily[0].temp.morn,res.daily[0].temp.day,res.daily[0].temp.eve,res.daily[0].temp.night,]
           this.feelsLikeData=[res.daily[0].feels_like.morn,res.daily[0].feels_like.day,res.daily[0].feels_like.eve,res.daily[0].feels_like.night,]

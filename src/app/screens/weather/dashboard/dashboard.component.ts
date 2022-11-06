@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit {
         // console.log(this.cityData)
         this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
           this.weatherData= res 
+          console.log(this.weatherData.current.weather[0].description)
           this.demoData=[res.daily[0].temp.morn,res.daily[0].temp.day,res.daily[0].temp.eve,res.daily[0].temp.night,]
       // setTimeout(()=>{ 
 

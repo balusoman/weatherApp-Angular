@@ -8,7 +8,7 @@
                         alt="">
                 </div>
 
-                <span class="text-black dark:text-white text-xl font-bold">Sunset</span>
+                <span class="text-primaryBlack dark:text-white text-xl font-bold">Sunset</span>
             </div>
             <div class="w-auto sm:w-2/5 h-full flex flex-row justify-between items-center gap-4 ">
 
@@ -41,18 +41,18 @@
                     </tui-data-list-wrapper>
                 </tui-combo-box>
             </div>
-            <div class=" hidden  h-full lg:flex flex-col items-center gap-4 w-20  py-14 ">
-                <a routerLink="./dashboard" class=" w-10 h-10 flex justify-center bg-orange-400 rounded-md shadow-2xl items-center">
+            <div class=" hidden text-primaryBlack dark:text-white  h-full lg:flex flex-col items-center gap-4 w-20  py-14 ">
+                <a routerLink="./dashboard" routerLinkActive="active" class=" w-10 h-10 flex justify-center rounded-md shadow-2xl items-center">
                     <span class="material-symbols-outlined  text-3xl">
                         dashboard
                         </span>
                 </a> 
-                <a routerLink="./info" class=" w-10 h-10 flex justify-center items-center">
+                <a routerLink="./info" routerLinkActive="active" class=" w-10 rounded-md shadow-2xl h-10 flex justify-center items-center">
                     <span class="material-symbols-outlined  text-3xl">
                         insights
                         </span>
                 </a>
-                <a routerLink="./" class=" w-10 h-10 flex justify-center items-center">
+                <!-- <a routerLink="./" class=" w-10 h-10 flex justify-center items-center">
                     <span class="material-symbols-outlined text-3xl">
                         calendar_month
                         </span>
@@ -61,9 +61,9 @@
                     <span class="material-symbols-outlined text-3xl">
                         thermostat
                         </span>
-                </a>
+                </a> -->
             </div>
-            <div class="flex-grow p-1 sm:p-4  w-full h-full">
+            <div class="flex-grow dark:bg-primaryBlack p-1 sm:p-4  w-full h-full">
                 <router-outlet></router-outlet>
             </div>
 
@@ -74,22 +74,22 @@
 
 
     </div>
-    <div class=" w-full md:w-2/6 h-full relative bg-slate-50 flex flex-col pb-4 ">
-        <div class=" w-full  text-orange-400 h-20 px-8 py-1 flex flex-row">
+    <div class=" w-full md:w-2/6 h-full relative bg-slate-50 dark:bg-black flex flex-col pb-4 ">
+        <div class=" w-full  text-primaryOrange dark:text-darkPrimary  h-20 px-8 py-1 flex flex-row">
             <div class="h-full  w-64 flex flex-col justify-center ">
-                <span class="text-3xl dark:text-darkPrimary font-medium">{{day}} {{week}}</span>
-                <span class="text-sm  px-1 text-slate-600 tracking-wide">{{month}} {{year}}</span>
+                <span class="text-3xl  font-medium">{{day}} {{week}}</span>
+                <span class="text-sm  px-1 text-slate-600 dark:text-white tracking-wide">{{month}} {{year}}</span>
             </div>
 
             <span
-                class="h-full w-36 pb-1 text-orange-400 flex  tracking-widest font-semibold justify-end items-end text-lg ">
+                class="h-full w-36 pb-1  flex  tracking-widest font-semibold justify-end items-end text-lg ">
                 {{time}}
             </span>
 
 
         </div>
 
-        <div class="h-[1px] w-5/6 bg-slate-200 self-center">
+        <div class="h-[1px] w-5/6 bg-slate-200 dark:bg-slate-900 self-center">
 
         </div>
 
@@ -100,13 +100,15 @@
 
 
                 <div class="sun absolute ">
-                    <div class="earth  
-                    rounded-full"></div>
+                    <div class="earth   
+                    rounded-full"
+                    [ngStyle]="{'background-image': night ? 'url(\'../../../assets/icons/moon.png\')' : 'url(\'../../../assets/icons/sun_PNG13426.png\')'}"
+                    ></div>
                 </div>
 
                 <div
                     class="container border-dashed border-b-0  border-t-4 border-orange-600 border-t-orange-400 h-full absolute rounded-t-full ">
-                    <div class="bar progressbar  bg-gradient-to-t from-slate-50 to-orange-400 absolute ">
+                    <div class="bar progressbar  bg-gradient-to-t from-slate-50 to-orange-400 absolute">
 
                     </div>
                 </div>
@@ -119,8 +121,10 @@
                 <div class="progress-bar relative  rounded-full  bg-orange-400">
                     <span class="dotleft absolute  ">
                         <span class="sunrise flex place-items-center absolute flex-col ">
-                            <span class="  text-sm font-semibold  text-orange-400">Sunrise</span>
-                            <span class=" text-xs tracking-wide text-orange-400">{{sunrise}} am</span>
+                            <span *ngIf="!night" class="  text-sm font-semibold  text-orange-400">Sunrise</span>
+                            <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonrise</span>
+                            <span *ngIf="!night" class=" text-xs tracking-wide text-orange-400">{{sunrise}} am</span>
+                            <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonRise}} pm</span>
                         </span>
                     </span>
                     <div class="html    progressbar bg-orange-400   rounded-full ">
@@ -129,8 +133,10 @@
                     </div>
                     <span class="dotright absolute ">
                         <span class="sunset flex  place-items-center flex-col ">
-                            <span class="  text-sm font-semibold  text-orange-400">Sunset</span>
-                            <span class=" text-xs tracking-wide text-orange-400">{{sunset}} pm</span>
+                            <span *ngIf="!night" class="  text-sm font-semibold  text-orange-400">Sunset</span>
+                            <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonset</span>
+                            <span *ngIf="!night" class=" text-xs tracking-wide text-orange-400">{{sunset}} pm</span>
+                            <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonSet}} am</span>
                         </span>
                     </span>
                 </div>
@@ -140,18 +146,18 @@
 
         </div>
        
-        <div #forecast class=" w-full absolute bottom-0 bg-slate-50   h-1/2 px-8 pb-4  ">
+        <div #forecast class=" w-full absolute bottom-0 bg-slate-50 dark:bg-black   h-1/2 px-8 pb-4  ">
 
             <button *ngIf="expanddiv" (click)="expand()"
-                        class="w-10/12 h-[20px] flex absolute rounded-full justify-center items-center shadow-sm border border-slate-50 ">
-                        <span class="material-symbols-outlined text-orange-400 text-2xl font-medium ">
+                        class="w-10/12 h-[20px] flex absolute rounded-full justify-center items-center shadow-sm border border-slate-50 dark:border-darkPrimary ">
+                        <span class="material-symbols-outlined text-orange-400 dark:text-white text-2xl font-medium ">
                         
                                 expand_more 
                             </span>
                     </button>
             
             <div class="h-full w-full flex flex-col items-center pt-8 ">
-                <span class="text-2xl font-semibold text-slate-600 ">Weather Prediction</span>
+                <span class="text-2xl font-semibold text-slate-600 dark:text-slate-200 ">Weather Prediction</span>
                 <div class="w-full flex flex-col gap-2 flex-grow items-center justify-around pt-2">
                      
 
@@ -170,7 +176,7 @@
                                 </div>
                             </div>
                             <div class="flex  flex-col h-full w-auto py-0.5 justify-center">
-                                <div class="flex flex-row justify-end gap-3 items-center">
+                                <div class="flex text-text-orange-500 flex-row justify-end gap-3 items-center">
                                     <span class="text-orange-500">{{day.temp.max - 273 | number: "1.0-0" }}&deg; / {{day.temp.min - 273 | number: "1.0-0" }}&deg;</span>
                                     <span class="material-symbols-outlined  text-orange-500 font-medium text-base  ">
                                         sunny
@@ -198,7 +204,7 @@
 
                     <ng-container *ngIf="!expanddiv">
                         <div *ngFor="let day of weatherData?.daily | slice:2:4"
-                            class="h-2/6 w-full flex px-4 bg-white items-center rounded-xl shadow-md">
+                            class="h-2/6 w-full flex px-4 bg-white  items-center rounded-xl shadow-md">
                             <div class="w-12 h-12 ">
                                 <img src="../../../assets/icons/cloudy (1).png" alt="">
                             </div>
@@ -206,7 +212,7 @@
                                 <span class="text-gray-500  text-md">{{day.dt | datepipe}}</span>
                                 <div class="w-full flex flex-row justify-between items-center">
                                     <span class="text-lg font-medium">{{day.weather[0].description}}</span>
-                                    <span class="text-orange-400 text-base font-semibold">{{ day.temp.max - 273 | number: "1.0-0"
+                                    <span class="text-orange-400 dark:text-darkPrimary text-base font-semibold">{{ day.temp.max - 273 | number: "1.0-0"
                                         }}&deg;/{{ day.temp.min - 273 | number: "1.0-0" }}&deg; </span>
                                 </div>
                             </div>
@@ -229,7 +235,7 @@
                     </div> -->
 
                     <button *ngIf="!expanddiv" (click)="expand()"
-                        class="w-1/2 h-1/4 flex self-end rounded-xl justify-center items-center shadow-xl bg-orange-400">
+                        class="w-1/2 h-1/4 flex self-end rounded-xl justify-center items-center shadow-xl bg-orange-400 dark:bg-darkPrimary">
                         <span class="text-white font-semibold tracking-wide text-md">Next 5 Days</span>
                     </button> 
 
