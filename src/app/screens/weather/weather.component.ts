@@ -21,6 +21,7 @@ export class WeatherComponent implements OnInit {
 
   cityData!:any 
   weatherData!:Weather  
+  night:boolean=true
 
   time:any;
   month!:any
@@ -29,6 +30,8 @@ export class WeatherComponent implements OnInit {
   week!:string
   sunrise!:any
   sunset!:any 
+  moonRise!:any
+  moonSet!:any
   currentDate:any 
 
    
@@ -143,6 +146,17 @@ expanddiv:boolean=false;
     this.time = `${setTime[0]}:${setTime[1]}`  
     // this.time = '06:15'
 
+    // set moon
+    let moonRiceString =  new Date(this.weatherData.daily[0].moonrise * 1000).toTimeString()
+    let moonSunrise =  moonRiceString.split(":",2) 
+    this.moonRise = `${moonSunrise[0]}:${moonSunrise[1]}` 
+    
+
+    let moonSetString =  new Date(this.weatherData.daily[0].moonset * 1000).toTimeString()
+    let moonSet =  moonSetString.split(":",2) 
+    this.moonSet = `${moonSet[0]}:${moonSet[1]}` 
+    
+
     // set SUNRICE
     let sunRiceString =  new Date(this.weatherData.current.sunrise * 1000).toTimeString()
     let setSunrise =  sunRiceString.split(":",2) 
@@ -160,6 +174,17 @@ expanddiv:boolean=false;
     // console.log(this.time)
     // console.log(this.sunrise)
     // console.log(this.sunset) 
+    console.log(this.time)
+    console.log(this.sunrise,this.sunset)
+    console.log(this.moonRise,this.moonSet)
+    if(this.time < this.sunset){
+      this.night =false
+    }
+    else{
+      this.night=true
+    }
+
+
 
    
    if(this.time == this.sunrise){

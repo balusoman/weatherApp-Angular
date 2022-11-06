@@ -1,4 +1,4 @@
-<div  class="w-full h-full pt-12 lg:pt-0 bg-white flex flex-col">
+<div  class="w-full dark:bg-primaryBlack h-full pt-12 lg:pt-0 bg-white flex flex-col">
     <div *ngIf="weatherData" class="h-1/2  w-full p-4 gap-4 flex flex-col md:flex-row">
         <div class="w-full lg:w-1/2 h-full text-black
         bg-no-repeat bg-cover bg-center
@@ -23,7 +23,7 @@
             <div class="h-1/4 px-4 justify-center w-full flex flex-col">
                 <span class="text-4xl font-semibold ">{{ weatherData?.current?.temp - 273 | number: "1.0-0" }}&deg;C</span>
                 <!-- <SPAN>  {{weather.current.temp}}</SPAN> -->
-                <span class="text-base  capitalize">description</span>
+                <span class="text-sm  capitalize">{{weatherData.current.weather[0].description}}</span>
             </div>
 
             <div class="h-2/5 px-4 pt-4 w-full grid grid-cols-3 gap-2">
@@ -92,7 +92,7 @@
     <div class="h-1/2 w-full  flex flex-col lg:flex-row gap-2 sm:flex-row">
         <div class="h-full w-full 
         lg:w-8/12 px-4   flex flex-col justify-between ">
-            <div *ngIf="weatherData" class="w-full h-1/4  flex flex-row justify-between items-center">
+            <div *ngIf="weatherData" class="w-full h-1/4 dark:text-slate-200  flex flex-row justify-between items-center">
                 <span class="w-auto text-xl font-semibold">How's the <br> temparature today?</span>
                 <!-- <div class="  grid grid-cols-3 gap-2">
                     <button class="w-8 h-8 bg-orange-400 text-white shadow-lg rounded-lg">Aa</button>
@@ -104,23 +104,23 @@
             <div class="w-full h-1/2 ">
                 <canvas  id="canvas">{{chart}}</canvas>
             </div>
-            <div *ngIf="weatherData" class="w-full h-1/5  flex flex-row justify-between ">
+            <div *ngIf="weatherData" class="w-full h-1/5   flex flex-row justify-between ">
 
                 <div class="flex flex-col justify-center items-center" >
-                    <span class="font-semibold text-lg text-black ">{{demoData[0]- 273 | number: "1.0-0"}}&deg;</span>
+                    <span class="font-semibold text-lg text-black dark:text-slate-200 ">{{demoData[0]- 273 | number: "1.0-0"}}&deg;</span>
                             <span class="text-base text-zinc-600"> Morning </span>
                 </div>
 
                 <div class="flex flex-col justify-center items-center" >
-                    <span class="font-semibold text-lg text-black ">{{demoData[1] - 273 | number: "1.0-0"}} &deg;</span>
+                    <span class="font-semibold text-lg text-black dark:text-slate-200  ">{{demoData[1] - 273 | number: "1.0-0"}}&deg;</span>
                             <span class="text-base text-zinc-600"> Noon </span>
                 </div>
                 <div class="flex flex-col justify-center items-center" >
-                    <span class="font-semibold text-lg text-black ">{{demoData[2] - 273 | number: "1.0-0"}}&deg;</span>
+                    <span class="font-semibold text-lg text-black dark:text-slate-200  ">{{demoData[2] - 273 | number: "1.0-0"}}&deg;</span>
                             <span class="text-base text-zinc-600"> Evening </span>
                 </div>
                 <div class="flex flex-col justify-center items-center" >
-                    <span class="font-semibold text-lg text-black ">{{demoData[3] - 273 | number: "1.0-0"}}&deg;</span>
+                    <span class="font-semibold text-lg text-black dark:text-slate-200  ">{{demoData[3] - 273 | number: "1.0-0"}}&deg;</span>
                             <span class="text-base text-zinc-600"> Night </span>
                 </div>
             </div>

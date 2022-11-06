@@ -87,7 +87,7 @@ height: 40px;
     // background-color: rgb(255, 168, 98);
     margin-top: 62px;
     margin-left: -35px;
-    background-image: url(../../../assets/icons/sun_PNG13426.png);
+    // background-image: url(../../../assets/icons/sun_PNG13426.png); 
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -97,6 +97,9 @@ height: 40px;
 .forecastdiv { 
     animation: slide 2s linear forwards;
 } 
+.active{
+    background-color: rgb(247, 116, 59);
+}
   
  
 
