@@ -2,10 +2,19 @@
     <div *ngIf="weatherData" class="w-full h-1/6   flex flex-row justify-between ">
         <div class="flex flex-col h-full justify-end  ">
             <div class="flex flex-row gap-2 items-center ">
-                <div class="w-20 h-20 bg-orange-400">
+                <div class="w-20 h-20 
+                bg-no-repeat bg-contain bg-center "
+                [ngStyle]="{'background-image': 
+                            weatherData.current.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
+                             weatherData.current.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
+                             weatherData.current.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
+                             weatherData.current.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
+                             weatherData.current.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
+ 
+                             'url(\'../../../assets/icons/clear.png\')'}">
 
                 </div>
-                <div>
+                <div> 
                     <span class="text-4xl dark:text-slate-200">{{dailyData.temp.max - 273 | number: "1.0-0" }}&deg;C</span>
                 </div>
                 <div class="flex flex-col dark:text-slate-200 text-base justify-between">
@@ -20,9 +29,10 @@
                 <span>wind</span>
             </div> -->
         </div>
-        <div class="flex flex-col dark:text-slate-200 justify-end h-full pr-4 text-2xl ">
+        <div class="flex flex-col items-end dark:text-slate-200 justify-end h-full pr-4 text-2xl ">
 
-            <span>{{cityData?.name}} {{cityData?.state}}</span>
+            <span class="">{{cityData?.name}}</span> 
+            <span class="text-sm text-slate-500">{{cityData?.state}}</span>
                 <span  class="text-sm tracking-wide flex justify-center items-center">latitude:&nbsp; &nbsp; <span #latitude class="font-semibold">{{cityData?.lat}}</span> &nbsp;
                 <button
                 (click)="copyText(cityData?.lat)"
@@ -61,8 +71,17 @@
      *ngIf="weatherData" class="w-full flex justify-center items-center h-full"> 
         <ng-template swiperSlide class="  flex flex-col justify-center items-center rounded-2xl shadow-md" *ngFor="let day of weatherData.daily">
             <button (click)="show(day)"  class="w-full flex flex-col justify-center items-center ">
-                <span class="text-xs ">{{day.dt *1000 | date}}</span>
-                <div class="w-14  h-14 bg-primaryOrange dark:bg-darkPrimary">
+                <span class="text-xs ">{{day.dt *1000 | date }}</span> 
+                <div class="w-14  h-14 bg-no-repeat bg-contain bg-center "
+                [ngStyle]="{'background-image': 
+                            day.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
+                             day.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
+                             day.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
+                             day.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
+                             day.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
+ 
+                             'url(\'../../../assets/icons/clear.png\')'}"
+                >
     
                 </div>
                 <span class="text-lg font-medium">{{day.temp.max - 273 | number: "1.0-0" }}&deg; 

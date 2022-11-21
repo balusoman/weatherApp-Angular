@@ -9,7 +9,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class WeatherService {  
 
+  landscapeMode = new BehaviorSubject<boolean>(true);
+
   searchedCity= new BehaviorSubject<string>('thrissur') 
+  darkMode = new BehaviorSubject<boolean>(false)
 
   
   API_key="8038a1909033301585eb00d07f25c65b";

@@ -1,10 +1,10 @@
-<div [class.dark]="darkScreenMode"
+<div  [class.dark]="darkScreenMode"
     class="w-screen bg-white  min-h-screen flex flex-col lg:flex-row h-auto lg:h-screen ">
-    <div class="w-full lg:w-8/12 h-full flex dark:bg-primaryBlack flex-col ">
-        <div class=" h-12 sm:h-14 w-full px-2 sm:px-4 flex fixed z-30 lg:relative  justify-between ">
+    <div class="w-full lg:w-8/12 h-full flex dark:bg-primaryBlack flex-col">
+        <div class=" h-12 sm:h-24 w-full px-2  sm:px-4 flex fixed z-30 lg:relative  justify-between ">
             <div class="w-auto pr-2 py-0  h-full flex flex-row justify-center items-center  ">
                 <div class="w-12">
-                    <img src="../../../assets/images/image_processing20200806-11280-10n51f5-removebg-preview.png"
+                    <img src="../../../assets/icons/site-logo.png"
                         alt="">
                 </div>
 
@@ -64,7 +64,7 @@
                 </a> -->
             </div>
             <div class="flex-grow dark:bg-primaryBlack p-1 sm:p-4  w-full h-full">
-                <router-outlet></router-outlet>
+                <router-outlet></router-outlet> 
             </div>
 
 
@@ -74,41 +74,45 @@
 
 
     </div>
-    <div class=" w-full md:w-2/6 h-full relative bg-slate-50 dark:bg-black flex flex-col pb-4 ">
-        <div class=" w-full  text-primaryOrange dark:text-darkPrimary  h-20 px-8 py-1 flex flex-row">
+    <div  class=" w-full md:w-2/6 h-full relative bg-slate-50 dark:bg-black flex flex-col pb-4 ">
+        <div *ngIf="weatherData" class=" w-full  text-primaryOrange dark:text-darkPrimary  h-28 px-8 py-1 flex flex-row">
             <div class="h-full  w-64 flex flex-col justify-center ">
                 <span class="text-3xl  font-medium">{{day}} {{week}}</span>
                 <span class="text-sm  px-1 text-slate-600 dark:text-white tracking-wide">{{month}} {{year}}</span>
             </div>
 
-            <span
+            <span *ngIf="time < '12.60'"
                 class="h-full w-36 pb-1  flex  tracking-widest font-semibold justify-end items-end text-lg ">
                 {{time}}
+            </span>
+            <span *ngIf="time > '12.60'"
+                class="h-full w-36 pb-1  flex  tracking-widest font-semibold justify-end items-end text-lg ">
+                {{time | numberpipe}} pm
             </span>
 
 
         </div>
 
-        <div class="h-[1px] w-5/6 bg-slate-200 dark:bg-slate-900 self-center">
+        <div *ngIf="weatherData" class="h-[1px] w-5/6 bg-slate-200 dark:bg-slate-900 self-center">
 
         </div>
 
-        <div class="  w-full flex p-0 sm:p-0  justify-center flex-col items-center h-2/5">
+        <div *ngIf="weatherData" class="  w-full flex p-0 sm:p-0  justify-center flex-col  items-center h-2/5">
 
 
             <div class="h-36  relative">
 
 
                 <div class="sun absolute ">
-                    <div class="earth   
+                    <div class="earth 
                     rounded-full"
-                    [ngStyle]="{'background-image': night ? 'url(\'../../../assets/icons/moon.png\')' : 'url(\'../../../assets/icons/sun_PNG13426.png\')'}"
+                    [ngStyle]="{'background-image': night ? 'url(\'../../../assets/icons/sun-iso-color.png\')' : 'url(\'../../../assets/icons/sun-iso-color.png\')'}"
                     ></div>
                 </div>
 
                 <div
-                    class="container border-dashed border-b-0  border-t-4 border-orange-600 border-t-orange-400 h-full absolute rounded-t-full ">
-                    <div class="bar progressbar  bg-gradient-to-t from-slate-50 to-orange-400 absolute">
+                    class="container border-dashed border-b-0  border-t-4 border-orange-600 border-t-orange-400  dark:border-t-purple-500 h-full absolute rounded-t-full ">
+                    <div class="bar progressbar  bg-gradient-to-t from-slate-50 to-orange-400 dark:bg-none dark:bg-purple-400  absolute">
 
                     </div>
                 </div>
@@ -116,27 +120,27 @@
             <!-- <div class="h-40 w-80 bg-slate-500 brder-2 border-emerald-900 rounded-t-full ">
 
             </div> -->
-            <div class="w-80 lg:w-4/5 h-0.5 mt-1 bg-orange-400 flex  flex-col items-center justify-center">
+            <div class="w-80 lg:w-4/5 h-0.5 mt-1 bg-orange-400 dark:bg-purple-500 flex  flex-col items-center justify-center">
 
-                <div class="progress-bar relative  rounded-full  bg-orange-400">
+                <div class="progress-bar relative  rounded-full  bg-orange-400 dark:bg-purple-500">
                     <span class="dotleft absolute  ">
                         <span class="sunrise flex place-items-center absolute flex-col ">
-                            <span *ngIf="!night" class="  text-sm font-semibold  text-orange-400">Sunrise</span>
-                            <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonrise</span>
-                            <span *ngIf="!night" class=" text-xs tracking-wide text-orange-400">{{sunrise}} am</span>
-                            <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonRise}} pm</span>
+                            <span  class="  text-sm font-semibold  text-orange-400 dark:text-purple-500">Sunrise</span>
+                            <!-- <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonrise</span> -->
+                            <span class=" text-xs tracking-wide text-orange-400 dark:text-purple-500">{{sunrise}}</span>
+                            <!-- <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonRise}} pm</span> -->
                         </span>
                     </span>
-                    <div class="html    progressbar bg-orange-400   rounded-full ">
+                    <div class="html    progressbar bg-orange-400 dark:bg-purple-500  rounded-full ">
                         <span class="movespan">
                         </span>
                     </div>
                     <span class="dotright absolute ">
                         <span class="sunset flex  place-items-center flex-col ">
-                            <span *ngIf="!night" class="  text-sm font-semibold  text-orange-400">Sunset</span>
-                            <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonset</span>
-                            <span *ngIf="!night" class=" text-xs tracking-wide text-orange-400">{{sunset}} pm</span>
-                            <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonSet}} am</span>
+                            <span  class="  text-sm font-semibold  text-orange-400 dark:text-purple-500">Sunset</span>
+                            <!-- <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonset</span> -->
+                            <span  class=" text-xs tracking-wide text-orange-400 dark:text-purple-500">{{sunset}}</span>
+                            <!-- <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonSet}} am</span> -->
                         </span>
                     </span>
                 </div>
@@ -146,32 +150,39 @@
 
         </div>
        
-        <div #forecast class=" w-full absolute bottom-0 bg-slate-50 dark:bg-black   h-1/2 px-8 pb-4  ">
+        <div *ngIf="weatherData"  #forecast class=" w-full absolute bottom-0 bg-slate-50 dark:bg-black   h-[44%] px-8 pb-4  ">
 
             <button *ngIf="expanddiv" (click)="expand()"
-                        class="w-10/12 h-[20px] flex absolute rounded-full justify-center items-center shadow-sm border border-slate-50 dark:border-darkPrimary ">
+                        class="w-10/12 h-[20px] flex top-0 absolute rounded-full justify-center items-center shadow-sm border border-slate-50 dark:border-darkPrimary ">
                         <span class="material-symbols-outlined text-orange-400 dark:text-white text-2xl font-medium ">
                         
                                 expand_more 
                             </span>
-                    </button>
+            </button>
             
-            <div class="h-full w-full flex flex-col items-center pt-8 ">
+            <div [@slideInUpOnEnter] class="h-full w-full flex flex-col items-center pt-8 ">
                 <span class="text-2xl font-semibold text-slate-600 dark:text-slate-200 ">Weather Prediction</span>
                 <div class="w-full flex flex-col gap-2 flex-grow items-center justify-around pt-2">
                      
 
                     <ng-container *ngIf="expanddiv">
                         <div *ngFor="let day of weatherData?.daily | slice:2:7"
-                            class="h-2/6 w-full flex px-4 bg-white items-center rounded-xl shadow-md">
-                            <div class="w-12 h-12 ">
-                                <img src="../../../assets/icons/cloudy (1).png" alt="">
+                            class="h-2/6 w-full flex px-4 dark:bg-slate-50 items-center rounded-xl shadow-md">
+                            <div class="w-12 h-12  bg-contain bg-center bg-no-repeat"
+                            [ngStyle]="{'background-image': 
+                            day.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
+                             day.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
+                             day.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
+                             day.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
+                             day.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
+ 
+                             'url(\'../../../assets/icons/clear.png\')'}" > 
                             </div>
                             <div class="flex h-full flex-grow   px-2 flex-col justify-center">
                                 <span class="text-gray-500  text-md">{{day?.dt | datepipe}}</span>
                                 <div class="flex flex-col ">
-                                    <!-- <span class="text-lg font-medium leading-tight">{{day.weather[0].main}}</span> -->
-                                    <span class="text-sm ">{{day.weather[0].description}}</span>
+                                    <span class="text-sm ">{{day.weather[0].description}}
+                                    </span>
 
                                 </div>
                             </div>
@@ -205,8 +216,16 @@
                     <ng-container *ngIf="!expanddiv">
                         <div *ngFor="let day of weatherData?.daily | slice:2:4"
                             class="h-2/6 w-full flex px-4 bg-white  items-center rounded-xl shadow-md">
-                            <div class="w-12 h-12 ">
-                                <img src="../../../assets/icons/cloudy (1).png" alt="">
+                            <div class="w-12 h-12  bg-contain bg-center bg-no-repeat"
+                            [ngStyle]="{'background-image': 
+                            day.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
+                             day.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
+                             day.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
+                             day.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
+                             day.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
+ 
+                             'url(\'../../../assets/icons/clear.png\')'}">
+                                <!-- <img src="../../../assets/icons/sun-cool.png" alt=""> -->
                             </div>
                             <div class="flex h-full flex-grow  px-2 flex-col justify-center">
                                 <span class="text-gray-500  text-md">{{day.dt | datepipe}}</span>

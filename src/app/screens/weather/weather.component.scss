@@ -1,5 +1,6 @@
 $target: var(--target-width); 
 $rotate: var(--target-rotate);
+$primaryColor: var(--primaryColor);
 
 
 .container{
@@ -27,7 +28,7 @@ $rotate: var(--target-rotate);
 .progress-bar div{
     width: 50%;
     height: 1px;
-    background-color: rgb(251 146 60);
+    background-color: $primaryColor;
 }
  .movespan{
     height: 6px;
@@ -35,7 +36,7 @@ $rotate: var(--target-rotate);
     border-radius: 50%;
     margin-top: -2px;
     margin-right: -3px;
-    background-color: rgb(251 146 60);
+    background-color: $primaryColor;
     float: right; 
 }
 .dotleft{
@@ -91,6 +92,7 @@ height: 40px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    animation: spin-right 10s linear forwards;
 
 }
 
@@ -98,7 +100,7 @@ height: 40px;
     animation: slide 2s linear forwards;
 } 
 .active{
-    background-color: rgb(247, 116, 59);
+    background-color: $primaryColor
 }
   
  
@@ -117,3 +119,5 @@ height: 40px;
     0%  { left:100px;top: .5rem; }
     100%  { left:2.5rem;top: .5rem;} 
   }
+
+  

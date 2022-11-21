@@ -1,18 +1,28 @@
 import { Component, ElementRef, HostBinding, Injector, OnInit, Renderer2, Self, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
 import { TuiDay, tuiPure, TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
-
+import { cityList } from 'src/app/cityName';
 
 import { Chart, registerables, Tooltip } from 'chart.js';
 import { WeatherService } from 'src/app/services/weather.service';
 import { Aqi } from 'src/app/models/aqi';
 import { Weather } from 'src/app/models/weather';
-import { Data } from '@angular/router';
+import { Data, Router } from '@angular/router';
+import { slideInUpOnEnterAnimation } from 'angular-animations';
 
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
-  styleUrls: ['./weather.component.scss']
+  styleUrls: ['./weather.component.scss'],
+  animations: [
+    // fadeInOnEnterAnimation(),
+    // fadeOutOnLeaveAnimation(),
+    // slideInDownOnEnterAnimation({translate:'6px'}),
+    // fadeInDownOnEnterAnimation({delay:100,translate:'10px',duration:1000}),
+    // zoomInOnEnterAnimation(),
+    slideInUpOnEnterAnimation({translate:'50px'})
+    
+  ]
 })
 export class WeatherComponent implements OnInit {
 
@@ -38,6 +48,7 @@ export class WeatherComponent implements OnInit {
 
 
 darkMode = new FormControl(false); 
+
 darkScreenMode!:boolean
 
 
@@ -48,15 +59,7 @@ citySearch = new FormControl(null, [
 searchFocus:boolean=false
 
 search:any="";
-cities: readonly any[] = [
-  'London',
-  'India',
-  'Paris',
-  'usa',
-  'Ireland',
-  'delhi',
-  'thrissur'
-];
+cities: readonly any[] = cityList  
 
 
 expanddiv:boolean=false;
@@ -65,31 +68,41 @@ expanddiv:boolean=false;
 
   @HostBinding('style.--target-width') private targetWidth: string = '0%';
   @HostBinding('style.--target-rotate') private rotate: string = '0deg';
+@HostBinding('style.--primaryColor') private primaryColor: string = 'orange';
+  constructor(private router:Router, private weatherService:WeatherService,private renderer: Renderer2 ) {
 
-  constructor(private weatherService:WeatherService,private renderer: Renderer2 ) {
-
+    console.log("weather component")
+ 
     this.citySearch.valueChanges.subscribe( cityname => { 
       if(cityname != null){  
         weatherService.searchedCity.next(cityname)
         // weatherService.getCoordinates(cityname)
         this.weatherService.getCoordinates(cityname).subscribe(res=>{
+          if(res == ''){
+            this.router.navigate(['/home'])
+          }
           this.cityData = res[0]  
-          this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
-            this.weatherData= res  
+           this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
+            if(res == ''){
+              this.router.navigate(['/home'])
+            }
+            this.weatherData= res   
           })
         })
       }  
     }); 
 
     this.darkMode.valueChanges.subscribe(res=>{ 
-      if(this.darkMode.value == true){
-         this.darkScreenMode = true 
+       if(res == true){
+        weatherService.darkMode.next(true)
+         this.primaryColor = 'purple'
+        this.darkScreenMode = true 
       }
       else{
+        weatherService.darkMode.next(false)
+         this.primaryColor ='orange'
         this.darkScreenMode=false
-      }
-       
-      
+      } 
     })
 
 
@@ -97,31 +110,19 @@ expanddiv:boolean=false;
   }
 
   ngOnInit(): void { 
+     
     this.weatherService.searchedCity.subscribe(res=>{
-      this.weatherService.getCoordinates(res).subscribe(res=>{
+      if(res == ''){
+        this.router.navigate(['/home'])
+      }
+      this.weatherService.getCoordinates(res).subscribe(res=>{ 
         this.cityData = res[0]
-        // console.log(this.cityData)
-        this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
+         this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
           this.weatherData= res 
           this.setDate()
-          // console.log(this.weatherData)
-        })
+         })
       })
     })
-
-    
-    
-
-    // this.weatherService.WeatherData.subscribe(res =>{ 
-    //   this.weather=res
-    //   console.log(this.weather)
-      
-    //   this.setDate()
-      
-      
-
-
-    // }) 
  
   }  
 
@@ -129,10 +130,10 @@ expanddiv:boolean=false;
   expand(){ 
     this.expanddiv = !this.expanddiv
     if(this.expanddiv == false){
-      var height = `50%`;
+      var height = `44%`;
     }
     else{
-      var height = `86%`;
+      var height = `80%`;
     } 
   this.renderer.setStyle(this.forecast.nativeElement, "height", height);
   } 
@@ -170,19 +171,13 @@ expanddiv:boolean=false;
     this.day = this.currentDate.getUTCDate();
     this.year = this.currentDate.getUTCFullYear();
     this.week = this.currentDate.toLocaleString('en-us', {  weekday: 'long' })
-    
-    // console.log(this.time)
-    // console.log(this.sunrise)
-    // console.log(this.sunset) 
-    console.log(this.time)
-    console.log(this.sunrise,this.sunset)
-    console.log(this.moonRise,this.moonSet)
-    if(this.time < this.sunset){
+      
+    if(this.time < this.moonSet){
       this.night =false
-    }
+     }
     else{
       this.night=true
-    }
+     }
 
 
 
@@ -193,8 +188,7 @@ expanddiv:boolean=false;
     }
 
    else if(this.time > this.sunrise && this.time < this.sunset){ 
-    // console.log("middele")
-      if(this.time <= '07:00' ){
+       if(this.time <= '07:00' ){
         this.targetWidth= '8.33%'
 
         this.rotate = '38deg'
@@ -258,14 +252,10 @@ expanddiv:boolean=false;
 
     }
 
-   else if(this.time >= this.sunset){
+   else if(this.time >= this.sunset ){
       this.targetWidth ='100%'
       this.rotate = '175deg'
-      // console.log("sunset is start")
-    } 
-    else{
-      console.log("test")
-    }
+     }  
   }
   
 
@@ -284,19 +274,7 @@ expanddiv:boolean=false;
       if(this.search != ''){
         this.searchFocus = true
       }  
-    }
-
-  //   onDayClick(day: TuiDay): void {
-  //     this.calenderValue = day;
-  //     console.log(this.calenderValue.day)
-  //     let newDate=new Date(this.calenderValue.year,this.calenderValue.month,this.calenderValue.day).getTime()/1000
-  //     console.log(newDate)
-  //     console.log(this.cityData.lat,this.cityData.lon)
-  //     this.weatherService.getHistoricData(this.cityData.lat,this.cityData.lon,
-  //       newDate ).subscribe(res=>{
-  //         console.log(res)
-  //       })
-  // }
+    } 
     
 
 }
