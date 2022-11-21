@@ -1,3 +1,38 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$weatherApp-Angular-primary: mat.define-palette(mat.$indigo-palette);
+$weatherApp-Angular-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$weatherApp-Angular-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$weatherApp-Angular-theme: mat.define-light-theme((
+  color: (
+    primary: $weatherApp-Angular-primary,
+    accent: $weatherApp-Angular-accent,
+    warn: $weatherApp-Angular-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($weatherApp-Angular-theme);
+
 /* You can add global styles to this file, and also import other style files */
 @import '@taiga-ui/core/styles/taiga-ui-local'; 
 
@@ -13,10 +48,15 @@
     }
 }
 
-
 html , body{
     padding: 0;
     margin: 0;
+    -ms-overflow-style: none;
+
+  -webkit-user-select: none;
+  user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
 }
 
 tui-wrapper[data-appearance='textfield'] {  
@@ -31,17 +71,19 @@ tui-wrapper[data-appearance='textfield'] {
 }
 :root{
     --tui-height-l: 2.5rem !important;
-    --tui-primary:rgb(251, 137, 16) !important;
-    --tui-primary-hover: rgb(251, 137, 16) !important;
+    --tui-primary:rgb(77, 0, 77) !important;
+    --tui-primary-hover: rgb(102, 27, 102)  !important;
     --tui-primary-active: rgb(210, 198, 174) !important; 
-    --tui-secondary: #2b2b2b;
-    --tui-secondary-hover: #2b2b2b !important;
-    --tui-secondary-active: #d8ddf2;
+    --tui-secondary: orange;
+    --tui-secondary-hover: rgb(201, 130, 0) !important;
+    --tui-secondary-active: rgb(58, 14, 58); 
 }
 tui-data-list { 
     padding: 0 !important;
     color:rgb(83, 83, 83) !important;
 }
 .t-icon{
-    color:rgb(251 136 16 / 55%) !important;  
+    // color:rgb(251 136 16 / 55%) !important;  
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

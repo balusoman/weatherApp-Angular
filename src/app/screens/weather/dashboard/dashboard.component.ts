@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { fadeInDownOnEnterAnimation, fadeInOnEnterAnimation, fadeInUpOnEnterAnimation, fadeOutOnLeaveAnimation, slideInDownOnEnterAnimation, slideInUpOnEnterAnimation, zoomInOnEnterAnimation } from 'angular-animations';
 import { Chart, registerables, Tooltip } from 'chart.js';
 import { Observable, switchMap } from 'rxjs';
 import { Aqi } from 'src/app/models/aqi';
@@ -9,7 +10,16 @@ import { WeatherService } from 'src/app/services/weather.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  animations: [
+    fadeInOnEnterAnimation(),
+    fadeOutOnLeaveAnimation(),
+    slideInDownOnEnterAnimation({translate:'6px'}),
+    fadeInDownOnEnterAnimation({delay:100,translate:'10px',duration:1000}),
+    zoomInOnEnterAnimation(),
+    slideInUpOnEnterAnimation({translate:'20px'})
+    
+  ]
 })
 export class DashboardComponent implements OnInit {
 
@@ -17,6 +27,7 @@ export class DashboardComponent implements OnInit {
   cityData!:any
   weatherData!:any 
   aqiData!:any
+ 
 
   AQIValue!:number;
   AQIIndex!:number
@@ -38,30 +49,22 @@ export class DashboardComponent implements OnInit {
 
       for(let i=0 ; i<=this.demoData.length - 1; i++){
         ctx.drawImage(this.image,x.getPixelForValue(i)-25, y.getPixelForValue(this.demoData[i])-60,50,50)
-      }
-
-      // console.log(x.getPixelForValue(0))
-      
-      // ctx.globalCompositeOperation = 'destination-over';
-      // ctx.fillStyle = options.color;
-      // ctx.fillRect(0, 0, chart.width, chart.height);
-      // ctx.restore();
+      } 
   },
   }
  
 
   constructor(private weatherService:WeatherService) { 
 
+      
+
     weatherService.searchedCity.subscribe(res =>{
       this.weatherService.getCoordinates(res).subscribe(res=>{
-        this.cityData = res[0]
-        // console.log(this.cityData)
-        this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
-          this.weatherData= res 
-          console.log(this.weatherData.current.weather[0].description)
-          this.demoData=[res.daily[0].temp.morn,res.daily[0].temp.day,res.daily[0].temp.eve,res.daily[0].temp.night,]
-      // setTimeout(()=>{ 
-
+        this.cityData = res[0] 
+         this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
+          this.weatherData= res  
+           this.demoData=[res.daily[0].temp.morn,res.daily[0].temp.day,res.daily[0].temp.eve,res.daily[0].temp.night,]
+ 
         if(this.firstChartLoad){
           this.InitialChartJs() 
           this.firstChartLoad=false 
@@ -69,45 +72,24 @@ export class DashboardComponent implements OnInit {
         else{
           this.updateChart()
         } 
-          // console.log(this.weatherData)
-        })
+         })
         this.weatherService.getAirQualityData(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
           this.aqiData= res.list[0]
-          // console.log(this.aqiData)
-          this.caclAqi(this.aqiData)
+           this.caclAqi(this.aqiData)
         })
       })
     })
 
 
-    this.image.src= "../../../../assets/icons/sunshine.png";
+    this.image.src= "../../../../assets/icons/sun-anim.png";
     
     Chart.register(...registerables) 
-
-    
-
-    
-
-    
-
-    console.log("dashboard constructor")
-
-    
+ 
      
    }
 
   ngOnInit(): void {
-    
-
-     
  
-
-    console.log("dashboard oninit")  
-
-     
- 
-     
-    
   }
 
   InitialChartJs(){ 
@@ -182,15 +164,11 @@ export class DashboardComponent implements OnInit {
           data: this.demoData,
           borderWidth:2,
           borderColor: 'rgb(251 146 60)',
-          fill:true, 
+          // fill:false, 
           pointBackgroundColor:"rgb(255, 168, 98)",
           tension:0.4,
           // borderCapStyle: 'butt',
           // borderDash: [10, 5],  
-        //   backgroundColor: [
-        //    "rgb(205, 108, 98)" ,
-             
-        // ],
           
           
       }]
@@ -214,7 +192,7 @@ export class DashboardComponent implements OnInit {
         pointBackgroundColor:"rgb(255, 168, 98)",
         tension:0.4,
         // borderCapStyle: 'butt',
-        // borderDash: [10, 5],
+        // borderDash: [10, 5], 
       }]
     }
     this.chart.update();

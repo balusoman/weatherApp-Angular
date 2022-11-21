@@ -6,14 +6,17 @@ import { DatePipe } from '../../pipes/date.pipe'
 
 
 
+
 import { WeatherRoutingModule } from './weather-routing.module';
 import { WeatherComponent } from './weather.component';
+import { NumberPipe } from 'src/app/pipes/number.pipe';
 
 
 @NgModule({
   declarations: [
     WeatherComponent,
-    DatePipe
+    DatePipe,
+    NumberPipe
      
   ],
   imports: [
