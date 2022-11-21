@@ -9,6 +9,7 @@ import { Aqi } from 'src/app/models/aqi';
 import { Weather } from 'src/app/models/weather';
 import { Data, Router } from '@angular/router';
 import { slideInUpOnEnterAnimation } from 'angular-animations';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-weather',
@@ -69,7 +70,8 @@ expanddiv:boolean=false;
   @HostBinding('style.--target-width') private targetWidth: string = '0%';
   @HostBinding('style.--target-rotate') private rotate: string = '0deg';
 @HostBinding('style.--primaryColor') private primaryColor: string = 'orange';
-  constructor(private router:Router, private weatherService:WeatherService,private renderer: Renderer2 ) {
+  constructor(private bpObserable: BreakpointObserver,
+    private router:Router, private weatherService:WeatherService,private renderer: Renderer2 ) {
 
     console.log("weather component")
  
@@ -78,6 +80,7 @@ expanddiv:boolean=false;
         weatherService.searchedCity.next(cityname)
         // weatherService.getCoordinates(cityname)
         this.weatherService.getCoordinates(cityname).subscribe(res=>{
+          
           if(res == ''){
             this.router.navigate(['/home'])
           }
@@ -105,6 +108,20 @@ expanddiv:boolean=false;
       } 
     })
 
+    this.bpObserable
+      .observe(['(min-width: 1100px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          console.log('Welcome');
+          weatherService.landscapeMode.next(true)
+          this.router.navigate([`/weather`]);
+        } else {  
+          this.router.navigate([`/home`]);
+          weatherService.landscapeMode.next(false)
+          
+        }
+      });
+
 
  
   }
@@ -112,10 +129,12 @@ expanddiv:boolean=false;
   ngOnInit(): void { 
      
     this.weatherService.searchedCity.subscribe(res=>{
+      
       if(res == ''){
         this.router.navigate(['/home'])
       }
       this.weatherService.getCoordinates(res).subscribe(res=>{ 
+        console.log(res[0])
         this.cityData = res[0]
          this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
           this.weatherData= res 
@@ -275,6 +294,10 @@ expanddiv:boolean=false;
         this.searchFocus = true
       }  
     } 
+
+    goHome(){
+      this.router.navigate([''])
+    }
     
 
 }

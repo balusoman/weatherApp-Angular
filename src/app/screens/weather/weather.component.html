@@ -2,7 +2,7 @@
     class="w-screen bg-white  min-h-screen flex flex-col lg:flex-row h-auto lg:h-screen ">
     <div class="w-full lg:w-8/12 h-full flex dark:bg-primaryBlack flex-col">
         <div class=" h-12 sm:h-24 w-full px-2  sm:px-4 flex fixed z-30 lg:relative  justify-between ">
-            <div class="w-auto pr-2 py-0  h-full flex flex-row justify-center items-center  ">
+            <div (click)="goHome()" class="w-auto pr-2 py-0 cursor-pointer h-full flex flex-row justify-center items-center  ">
                 <div class="w-12">
                     <img src="../../../assets/icons/site-logo.png"
                         alt="">
@@ -87,7 +87,7 @@
             </span>
             <span *ngIf="time > '12.60'"
                 class="h-full w-36 pb-1  flex  tracking-widest font-semibold justify-end items-end text-lg ">
-                {{time | numberpipe}} pm
+                {{time | numberpipe}} 
             </span>
 
 
@@ -161,7 +161,7 @@
             </button>
             
             <div [@slideInUpOnEnter] class="h-full w-full flex flex-col items-center pt-8 ">
-                <span class="text-2xl font-semibold text-slate-600 dark:text-slate-200 ">Weather Prediction</span>
+                <span class="text-2xl font-semibold text-slate-700 dark:text-slate-200 ">Weather Prediction</span>
                 <div class="w-full flex flex-col gap-2 flex-grow items-center justify-around pt-2">
                      
 
@@ -181,20 +181,20 @@
                             <div class="flex h-full flex-grow   px-2 flex-col justify-center">
                                 <span class="text-gray-500  text-md">{{day?.dt | datepipe}}</span>
                                 <div class="flex flex-col ">
-                                    <span class="text-sm ">{{day.weather[0].description}}
+                                    <span class="text-sm font-medium capitalize text-slate-900 ">{{day.weather[0].description}}
                                     </span>
 
                                 </div>
                             </div>
                             <div class="flex  flex-col h-full w-auto py-0.5 justify-center">
                                 <div class="flex text-text-orange-500 flex-row justify-end gap-3 items-center">
-                                    <span class="text-orange-500">{{day.temp.max - 273 | number: "1.0-0" }}&deg; / {{day.temp.min - 273 | number: "1.0-0" }}&deg;</span>
+                                    <span  class="text-orange-500 ">{{day.temp.max - 273 | number: "1.0-0" }}&deg; / {{day.temp.min - 273 | number: "1.0-0" }}&deg;</span>
                                     <span class="material-symbols-outlined  text-orange-500 font-medium text-base  ">
                                         sunny
                                     </span>
 
                                 </div>
-                                <div class="flex flex-row  justify-end gap-3 items-center">
+                                <div *ngIf="day.rain" class="flex flex-row  justify-end gap-3 items-center">
                                     <span class="text-purple-600">{{day.rain}} mm</span>
                                     <span class="material-symbols-outlined text-purple-600 font-medium text-base ">
 
@@ -230,8 +230,8 @@
                             <div class="flex h-full flex-grow  px-2 flex-col justify-center">
                                 <span class="text-gray-500  text-md">{{day.dt | datepipe}}</span>
                                 <div class="w-full flex flex-row justify-between items-center">
-                                    <span class="text-lg font-medium">{{day.weather[0].description}}</span>
-                                    <span class="text-orange-400 dark:text-darkPrimary text-base font-semibold">{{ day.temp.max - 273 | number: "1.0-0"
+                                    <span class="text-lg text-slate-700 capitalize font-medium">{{day.weather[0].description}}</span>
+                                    <span class="text-orange-400 dark:text-darkPrimary text-base">{{ day.temp.max - 273 | number: "1.0-0"
                                         }}&deg;/{{ day.temp.min - 273 | number: "1.0-0" }}&deg; </span>
                                 </div>
                             </div>
