@@ -10,10 +10,12 @@ const routes: Routes =
       path: '',
       component: AppComponent,
       children: [
-        { path: '', redirectTo: 'weather', pathMatch: 'full' },
+        { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'weather', loadChildren: () => import('./screens/weather/weather.module').then(m => m.WeatherModule) },
-        { path: 'home', loadChildren: () => import('./screens/home/home.module').then(m => m.HomeModule) }]
+        { path: '', loadChildren: () => import('./screens/home/home.module').then(m => m.HomeModule) }]
     },
+
+    
     {
       path: '**', 
       component:PagenotfoundComponent
@@ -24,7 +26,4 @@ const routes: Routes =
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
-// export const routingComponents =[
-//   WeatherComponent
-// ]
+export class AppRoutingModule { } 

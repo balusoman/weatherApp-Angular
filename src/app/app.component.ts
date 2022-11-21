@@ -10,23 +10,7 @@ import { WeatherService } from './services/weather.service';
 })
 export class AppComponent {
   title = 'weatherApp-Angular'; 
-
-  constructor(private weatherService:WeatherService,private bpObserable: BreakpointObserver,private router: Router){
-
-    this.bpObserable
-      .observe(['(min-width: 1100px)'])
-      .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          console.log('Welcome');
-          weatherService.landscapeMode.next(true)
-          this.router.navigate([`/weather`]);
-        } else {  
-          this.router.navigate([`/home`]);
-          weatherService.landscapeMode.next(false)
-          
-        }
-      });
-  }
+ 
    
 
 }
