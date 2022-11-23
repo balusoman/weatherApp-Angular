@@ -1,12 +1,27 @@
+$scaleX: var(--scaleX);
+
+
+
 .rotate {
     animation: rotation 400s infinite linear;
   }
+
+  .loading {
+    animation: rotation 20s infinite linear;
+  } 
+
+  .loader {
+    content: ""; 
+    transition: transform 20ms ease-in-out;
+    transform: $scaleX;
+    transform-origin: left;
+  } 
 
 @keyframes rotation {
     from {
       transform: rotate(0deg);
     }
     to {
-      transform: rotate(359deg);
+      transform: rotate(-360deg);
     }
   }

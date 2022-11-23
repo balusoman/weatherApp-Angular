@@ -1,15 +1,13 @@
-import { Component, ElementRef, HostBinding, Injector, OnInit, Renderer2, Self, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, Inject, Injector, OnInit, Renderer2, Self, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgControl, Validators } from '@angular/forms';
 import { TuiDay, tuiPure, TUI_DEFAULT_MATCHER } from '@taiga-ui/cdk';
-import { cityList } from 'src/app/cityName';
-
-import { Chart, registerables, Tooltip } from 'chart.js';
-import { WeatherService } from 'src/app/services/weather.service';
-import { Aqi } from 'src/app/models/aqi';
+import { cityList } from 'src/app/cityName'; 
+import { WeatherService } from 'src/app/services/weather.service'; 
 import { Weather } from 'src/app/models/weather';
 import { Data, Router } from '@angular/router';
 import { slideInUpOnEnterAnimation } from 'angular-animations';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import {  TuiAlertService ,TuiNotification} from '@taiga-ui/core';
 
 @Component({
   selector: 'app-weather',
@@ -27,6 +25,9 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 })
 export class WeatherComponent implements OnInit {
 
+  
+  public lat:any;
+  public lng:any;
    
   calenderValue: TuiDay | null = null;
 
@@ -70,7 +71,12 @@ expanddiv:boolean=false;
   @HostBinding('style.--target-width') private targetWidth: string = '0%';
   @HostBinding('style.--target-rotate') private rotate: string = '0deg';
 @HostBinding('style.--primaryColor') private primaryColor: string = 'orange';
+
+
+
   constructor(private bpObserable: BreakpointObserver,
+  @Inject(TuiAlertService)
+  private readonly alertService: TuiAlertService,
     private router:Router, private weatherService:WeatherService,private renderer: Renderer2 ) {
 
     console.log("weather component")
@@ -127,6 +133,7 @@ expanddiv:boolean=false;
   }
 
   ngOnInit(): void { 
+    // this.getCurrentLocation();
      
     this.weatherService.searchedCity.subscribe(res=>{
       
@@ -134,16 +141,78 @@ expanddiv:boolean=false;
         this.router.navigate(['/home'])
       }
       this.weatherService.getCoordinates(res).subscribe(res=>{ 
-        console.log(res[0])
+        // console.log(res[0])
         this.cityData = res[0]
          this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
-          this.weatherData= res 
-          this.setDate()
+          // console.log(res)
+          setTimeout(() => {
+            this.weatherData= res 
+            this.setDate()
+          }, 500);
+          
          })
       })
+
+      // this.weatherService.getMyWeather(10.4535,76.2630).subscribe(res=>{
+      //   console.log(res)
+      // })
     })
  
   }  
+
+  getCurrentLocation() {
+    if (navigator.geolocation) {
+      console.log("test")
+      navigator.geolocation.getCurrentPosition((position) => {
+        if (position) {
+          // console.log("Latitude: " + position.coords.latitude +
+          //   "Longitude: " + position.coords.longitude);
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude; 
+
+          this.weatherService.getMyLocation(this.lat,this.lng).subscribe(res=>{
+            // console.log(res[0])
+            // this.cityData = res[0]
+            this.citySearch.setValue(res[0].name)
+            // this.searchFocus = true 
+            // if(this.search == ''){
+            //   this.searchFocus = true
+            // }
+             
+          })
+
+          
+        } 
+        // else{
+        //   console.log("denied")
+        //   this.alertService.open('Notification').subscribe({
+        //     complete: () => {
+        //       console.log('user DEnied');
+        //     },
+        //   });
+        // }
+      },
+        (error) => {
+          console.log(error)
+          // if(error.code == 1){
+          //   console.log("alert")
+          //    this.alertService.open(`A simple option`, {label: `With a heading!`}).subscribe();
+ 
+          // }
+
+        });
+    } else {
+      // console.log("closed")
+      // this.alertService.open('Notification').subscribe({
+      //   complete: () => {
+      //     console.log('Notification is closed');
+      //   },
+      // });
+
+      alert("Geolocation is not supported by this browser.");
+    }
+
+  }
 
 
   expand(){ 
@@ -292,7 +361,10 @@ expanddiv:boolean=false;
       this.searchFocus=!this.searchFocus  
       if(this.search != ''){
         this.searchFocus = true
-      }  
+      }
+      // else{
+      //   this.searchFocus=false
+      // }
     } 
 
     goHome(){

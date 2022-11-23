@@ -1,7 +1,7 @@
-<div  [class.dark]="darkScreenMode"
+<div  [class.dark]="darkScreenMode" 
     class="w-screen bg-white  min-h-screen flex flex-col lg:flex-row h-auto lg:h-screen ">
-    <div class="w-full lg:w-8/12 h-full flex dark:bg-primaryBlack flex-col">
-        <div class=" h-12 sm:h-24 w-full px-2  sm:px-4 flex fixed z-30 lg:relative  justify-between ">
+    <div class="w-full lg:w-8/12    h-full flex dark:bg-primaryBlack flex-col">
+        <div class=" h-12 sm:h-24   w-full px-2  sm:px-4 flex fixed z-30 lg:relative  justify-between ">
             <div (click)="goHome()" class="w-auto pr-2 py-0 cursor-pointer h-full flex flex-row justify-center items-center  ">
                 <div class="w-12">
                     <img src="../../../assets/icons/site-logo.png"
@@ -10,17 +10,38 @@
 
                 <span class="text-primaryBlack dark:text-white text-xl font-bold">Sunset</span>
             </div>
-            <div class="w-auto sm:w-2/5 h-full flex flex-row justify-between items-center gap-4 ">
+            <div class="w-auto sm:w-1/2 h-full flex flex-row justify-between items-center gap-4 ">
 
                 <div class="w-10/12 hidden sm:block">
-                    <tui-combo-box tuiTextfieldInputMode="text" (focusedChange)="focus()" tuiDropdownminHeight=2
+                    <tui-combo-box tuiTextfieldInputMode="text" spellcheck="false" (focusedChange)="focus()" tuiDropdownminHeight=2
                         [formControl]="citySearch" [(search)]="search">
                         <label *ngIf="!searchFocus">search cities here</label>
                         <tui-data-list-wrapper *tuiDataList [items]=" filter(search)"></tui-data-list-wrapper>
                     </tui-combo-box>
                 </div>
 
-                <!-- <a routerLink="./info">info</a> -->
+                <!-- <a routerLink="./info">info</a> --> 
+                <div [tuiHint]="tooltip" class="w-10 h-10  flex justify-center items-center">
+                    <button *ngIf="!darkScreenMode" class="  hover:border border-transparent  rounded-xl
+                bg-no-repeat bg-contain bg-center 
+                    bg-[url('/../../../assets/icons/LOCATION.png')] w-full h-full " (click)="getCurrentLocation()">
+                </button>
+
+                <button *ngIf="darkScreenMode" class="  hover:border border-transparent  rounded-xl
+                bg-no-repeat bg-contain bg-center 
+                    bg-[url('/../../../assets/icons/LOCATION_DARK.png')] w-full h-full " (click)="getCurrentLocation()">
+                </button>
+
+
+
+                <ng-template  #tooltip>
+                    <div> Find my location</div>
+                    <!-- <div>Baby don't hurt me</div>
+                    <div>Don't hurt me</div>
+                    <div>No more...</div> -->
+                </ng-template>
+                </div>
+                
 
 
                 <div class=" flex flex-row items-center">
@@ -42,16 +63,18 @@
                 </tui-combo-box>
             </div>
             <div class=" hidden text-primaryBlack dark:text-white  h-full lg:flex flex-col items-center gap-4 w-20  py-14 ">
-                <a routerLink="./dashboard" routerLinkActive="active" class=" w-10 h-10 flex justify-center rounded-md shadow-2xl items-center">
+                
+                <a routerLink='./dashboard'   routerLinkActive="active" class=" w-10 h-10 flex justify-center rounded-md shadow-2xl items-center">
                     <span class="material-symbols-outlined  text-3xl">
                         dashboard
                         </span>
                 </a> 
-                <a routerLink="./info" routerLinkActive="active" class=" w-10 rounded-md shadow-2xl h-10 flex justify-center items-center">
+                <a routerLink='./info'   routerLinkActive="active" class=" w-10 rounded-md shadow-2xl h-10 flex justify-center items-center">
                     <span class="material-symbols-outlined  text-3xl">
                         insights
                         </span>
-                </a>
+                </a>  
+
                 <!-- <a routerLink="./" class=" w-10 h-10 flex justify-center items-center">
                     <span class="material-symbols-outlined text-3xl">
                         calendar_month
@@ -81,11 +104,11 @@
                 <span class="text-sm  px-1 text-slate-600 dark:text-white tracking-wide">{{month}} {{year}}</span>
             </div>
 
-            <span *ngIf="time < '12.60'"
+            <!-- <span *ngIf="time < '12.60'"
                 class="h-full w-36 pb-1  flex  tracking-widest font-semibold justify-end items-end text-lg ">
                 {{time}}
-            </span>
-            <span *ngIf="time > '12.60'"
+            </span> -->
+            <span 
                 class="h-full w-36 pb-1  flex  tracking-widest font-semibold justify-end items-end text-lg ">
                 {{time | numberpipe}} 
             </span>
@@ -127,7 +150,7 @@
                         <span class="sunrise flex place-items-center absolute flex-col ">
                             <span  class="  text-sm font-semibold  text-orange-400 dark:text-purple-500">Sunrise</span>
                             <!-- <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonrise</span> -->
-                            <span class=" text-xs tracking-wide text-orange-400 dark:text-purple-500">{{sunrise}}</span>
+                            <span class=" text-xs tracking-wide text-orange-400 dark:text-purple-500">{{sunrise | numberpipe}}</span>
                             <!-- <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonRise}} pm</span> -->
                         </span>
                     </span>
@@ -139,7 +162,7 @@
                         <span class="sunset flex  place-items-center flex-col ">
                             <span  class="  text-sm font-semibold  text-orange-400 dark:text-purple-500">Sunset</span>
                             <!-- <span *ngIf="night" class="  text-sm font-semibold  text-orange-400">Moonset</span> -->
-                            <span  class=" text-xs tracking-wide text-orange-400 dark:text-purple-500">{{sunset}}</span>
+                            <span  class=" text-xs tracking-wide text-orange-400 dark:text-purple-500">{{sunset | numberpipe}}</span>
                             <!-- <span *ngIf="night" class=" text-xs tracking-wide text-orange-400">{{moonSet}} am</span> -->
                         </span>
                     </span>
@@ -293,4 +316,14 @@
 ></tui-calendar> 
         </div> -->
     </div>
+</div>
+
+<div *ngIf="!weatherData" class="w-screen  h-screen flex flex-col justify-center items-center bg-slate-50 relative" >
+    <div class="w-48 h-48 rotate
+    bg-no-repeat bg-contain bg-center
+        bg-[url('/../../../assets/icons/sun-anim.png')]">
+
+    </div> 
+    <!-- <div class="loader h-0.5 w-60 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-200"></div> -->
+    <span class="mt-1 font-medium text-base ml-4 text-yellow-400 tracking-wide">fetching...</span>
 </div>

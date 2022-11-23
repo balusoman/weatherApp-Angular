@@ -1,4 +1,4 @@
-<main class="w-screen h-screen flex items-center pl-24  relative">
+<main *ngIf="!loading" class="w-screen hidden h-screen md:flex items-center pl-24  relative">
     <div class="absolute left-[5%] top-[5%] flex flex-row justify-center items-center px-2 py-2">
         <div class="w-14 h-14 bg-no-repeat bg-cover bg-center
         bg-[url('/../../../assets/icons/site-logo.png')]"> 
@@ -8,16 +8,13 @@
     <div class=" flex flex-col justify-center gap-4 items-start w-1/2 h-[60%]">
         <span class="text-[4.2vw] text-transparent bg-clip-text bg-gradient-to-r from-purple-900 to-pink-600
         font-bold leading-[4vw] tracking-wide title ">Findout <br> your daily <br> weather<span class=" text-purple-900">.</span> </span>
-        <span class=" pr-10 text-lg font-medium leading-5 text-slate-700">This is is weather finding website. you can search and find the
-            weather of city and we also provide the historic and forecast data of the weather This is is weather finding website.
+        <span class=" pr-10 text-lg font-medium leading-5 text-slate-700">This is weather finding website. you can search and find the
+            weather of city and we also provide the historic and forecast data of the city.
         </span>
         <div>
             <button (click)="click()" class="bg-gradient-to-r from-purple-700 to-pink-600 rounded-full hover:outline outline-offset-2 outline-purple-500 text-slate-50 text-base tracking-wide font-medium px-6 py-3">Get Started</button>
         </div>
     </div>
-    
-
-
     <div [@slideInLeftOnEnter] class="w-16 h-16 absolute top-[10%] right-[30%] bg-no-repeat bg-contain bg-center
         bg-[url('/../../../assets/icons/home-icons/cloud-solo.png')] ">
     </div>
@@ -46,3 +43,26 @@
         </div>
     </div>
 </main>
+
+<main *ngIf="!loading" class="flex lg:hidden w-screen px-2 h-screen justify-center items-center flex-col relative">
+    <div class="absolute left-[5%] top-[5%] flex flex-row justify-center items-center px-2 py-2">
+        <div class="w-14 h-14 bg-no-repeat bg-cover bg-center
+        bg-[url('/../../../assets/icons/site-logo.png')]"> 
+        </div>
+        <span class="text-3xl text-slate-800 font-medium">Sunset</span>
+    </div>
+    <span class="text-4xl font-semibold">Sorry</span>
+    <span class="text-sm">we're down for scheduled maintenance right now</span>
+    <span class="text-lg ">You can see the site on desktop </span>
+</main>
+
+<div *ngIf="loading" class="w-screen h-screen flex flex-col justify-center items-center bg-slate-50 relative" >
+    <div class="w-48 h-48 loading
+    bg-no-repeat bg-contain bg-center
+        bg-[url('/../../../assets/icons/sun-anim.png')]">
+
+    </div> 
+    <div class="loader h-0.5 w-60 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-200"></div>
+    <span class="mt-1 font-medium text-base text-yellow-400 tracking-wide">{{loadingNum}}%</span>
+</div>
+

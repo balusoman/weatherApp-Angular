@@ -1,6 +1,6 @@
-<div class="w-full h-full relative pt-12 lg:pt-0   flex flex-col">
-    <div *ngIf="weatherData" class="w-full h-1/6   flex flex-row justify-between ">
-        <div class="flex flex-col h-full justify-end  ">
+<div class="w-full h-full relative  pt-12 lg:pt-0  p flex flex-col">
+    <div *ngIf="weatherData" class="w-full h-[20%] pt-4 px-4  flex flex-row justify-between items-center ">
+        <div class="flex flex-col h-full  justify-end  ">
             <div class="flex flex-row gap-2 items-center ">
                 <div class="w-20 h-20 
                 bg-no-repeat bg-contain bg-center "
@@ -22,16 +22,11 @@
                     <span>Humidity: <span class="font-semibold">{{ dailyData.humidity}}%</span></span>
                     <span>Wind: <span class="font-semibold">{{ dailyData.wind_speed  | number: "1.0-0" }} km/h</span></span>
                 </div>
-            </div>
-            <!-- <div class="w-full text-lg gap-4 py-4 flex flex-row">
-                <span>temperature</span>
-                <span>pressure</span> 
-                <span>wind</span>
-            </div> -->
+            </div> 
         </div>
-        <div class="flex flex-col items-end dark:text-slate-200 justify-end h-full pr-4 text-2xl ">
+        <div class="flex flex-col  items-end dark:text-slate-200 justify-end h-full pr-4 text-2xl ">
 
-            <span class="">{{cityData?.name}}</span> 
+            <span >{{cityData?.name}}</span> 
             <span class="text-sm text-slate-500">{{cityData?.state}}</span>
                 <span  class="text-sm tracking-wide flex justify-center items-center">latitude:&nbsp; &nbsp; <span #latitude class="font-semibold">{{cityData?.lat}}</span> &nbsp;
                 <button
@@ -51,18 +46,18 @@
     </div>
 
 
-    <div class="w-full h-56">
+    <div class="w-full h-[40%]">
         <canvas  id="canvas1">{{chart1}}</canvas>
         
     </div>  
-    <div *ngIf="weatherData" class="w-full h-10 text-base font-semibold text-slate-600 dark:text-slate-200  flex flex-row justify-between pr-2 ">
+    <div *ngIf="weatherData" class="w-full h-[10%] text-base font-medium text-slate-600 dark:text-slate-200  flex flex-row justify-between pr-2 ">
         <span>Morning</span>
         <span>Noon</span>
         <span>Evening</span>
         <span>Night</span>
     </div>
 
-    <div *ngIf="!expand" class="w-full dark:text-slate-300 flex  justify-center items-center h-36 ">
+    <div *ngIf="!expand" class="w-full  dark:text-slate-300 flex  justify-center items-center  ">
         <swiper 
     [slidesPerView]="5"
     [spaceBetween]="10" 
@@ -101,4 +96,12 @@
     <div *ngIf="expand" class="flex h-5/6 w-full absolute bottom-0 bg-slate-100 ">
           
     </div> -->
+</div>
+<div *ngIf="!weatherData" class="w-full  h-full flex flex-col top-0 left-0 z-50 justify-center items-center bg-slate-50 absolute" >
+    <div class="w-48 h-48 rotate
+    bg-no-repeat bg-contain bg-center
+        bg-[url('/../../../assets/icons/sun-anim.png')]">
+
+    </div> 
+    <!-- <span class="mt-1 font-medium text-base ml-4 text-yellow-400 tracking-wide">fetching...</span> -->
 </div>
