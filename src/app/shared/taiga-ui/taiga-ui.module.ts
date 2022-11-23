@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TuiLoaderModule,TuiThemeNightModule, TuiModeModule,TuiDataListModule,TuiCalendarModule,TuiLabelModule} from '@taiga-ui/core';
+import { TuiLoaderModule,TuiTooltipModule,TuiNotificationModule,TuiAlertModule,
+  TuiHintModule,TuiThemeNightModule, TuiModeModule,TuiDataListModule,TuiCalendarModule,TuiLabelModule} from '@taiga-ui/core';
 import { TuiFilterPipeModule,} from "@taiga-ui/cdk";
 import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListWrapperModule,TuiToggleModule,TuiProgressModule} from '@taiga-ui/kit';
 
@@ -24,7 +25,11 @@ import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListW
     TuiProgressModule,
     TuiCalendarModule,
     TuiThemeNightModule,
-    TuiModeModule
+    TuiModeModule,
+    TuiTooltipModule,
+    TuiHintModule,
+    TuiNotificationModule,
+    TuiAlertModule
   ],
   exports:[
     TuiLoaderModule,
@@ -39,7 +44,11 @@ import {TuiInputModule,TuiFilterByInputPipeModule,TuiComboBoxModule,TuiDataListW
     TuiProgressModule,
     TuiCalendarModule,
     TuiThemeNightModule,
-    TuiModeModule
+    TuiModeModule,
+    TuiTooltipModule,
+    TuiHintModule,
+    TuiNotificationModule,
+    TuiAlertModule
   ]
 })
 export class TaigaUiModule { }

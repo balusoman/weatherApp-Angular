@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class WeatherService {  
 
+  siteLoaded=new BehaviorSubject<boolean>(false);
+
   landscapeMode = new BehaviorSubject<boolean>(true);
 
   searchedCity= new BehaviorSubject<string>('thrissur') 
@@ -21,7 +23,7 @@ export class WeatherService {
    }
 
   getCoordinates(city:string):Observable<any>{ 
-      return this.http.get<any>(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.API_key}`)
+      return this.http.get<any>(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${this.API_key}`)
  
   }
 
@@ -29,19 +31,24 @@ export class WeatherService {
    return this.http.get<any>(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&appid=${this.API_key}`)
   
   }
+  getMyLocation(lat:any,lon:any):Observable<any>{
+    return this.http.get<any>(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${this.API_key}`)
+    // http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}
+   
+   }
 
   getAirQualityData(lat:any,lon:any):Observable<any>{
-return this.http.get<any>(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${this.API_key}`)
+return this.http.get<any>(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${this.API_key}`)
   }
 
-  getHistoricData(lat:any,lon:any,date:any):Observable<any>{
+  // getHistoricData(lat:any,lon:any,date:any):Observable<any>{
  
     
-    // let date = Math.round(new Date(new Date().setDate(new Date().getDate() - 1 )).getTime() / 1000)
+  //   // let date = Math.round(new Date(new Date().setDate(new Date().getDate() - 1 )).getTime() / 1000)
      
 
-    return this.http.get<any>(`https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${date}&appid=${this.API_key}`)
-  }
+  //   return this.http.get<any>(`https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${lon}&dt=${date}&appid=${this.API_key}`)
+  // }
 
  
 }

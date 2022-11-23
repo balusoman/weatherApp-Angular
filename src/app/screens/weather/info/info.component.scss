@@ -16,3 +16,16 @@ $primaryColor: var(--primaryColor);
     height: 95%;
     width: 18% !important; 
 } 
+
+.rotate {
+    animation: rotation 6s infinite linear;
+  } 
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
