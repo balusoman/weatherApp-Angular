@@ -5,7 +5,7 @@ import { cityList } from 'src/app/cityName';
 import { WeatherService } from 'src/app/services/weather.service'; 
 import { Weather } from 'src/app/models/weather';
 import { Data, Router } from '@angular/router';
-import { slideInUpOnEnterAnimation } from 'angular-animations';
+import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation, slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import {  TuiAlertService ,TuiNotification} from '@taiga-ui/core';
 
@@ -14,12 +14,13 @@ import {  TuiAlertService ,TuiNotification} from '@taiga-ui/core';
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
   animations: [
-    // fadeInOnEnterAnimation(),
-    // fadeOutOnLeaveAnimation(),
-    // slideInDownOnEnterAnimation({translate:'6px'}),
+    fadeInOnEnterAnimation({delay:1000}),
+    fadeOutOnLeaveAnimation(),
+    // slideInDownOnLeaveAnimation({translate:'6px'}),
     // fadeInDownOnEnterAnimation({delay:100,translate:'10px',duration:1000}),
     // zoomInOnEnterAnimation(),
-    slideInUpOnEnterAnimation({translate:'50px'})
+    slideInUpOnEnterAnimation({translate:'50px'}),
+    slideOutDownOnLeaveAnimation()
     
   ]
 })
@@ -88,12 +89,12 @@ expanddiv:boolean=false;
         this.weatherService.getCoordinates(cityname).subscribe(res=>{
           
           if(res == ''){
-            this.router.navigate(['/home'])
+            this.router.navigate([''])
           }
           this.cityData = res[0]  
            this.weatherService.getWeather(this.cityData?.lat,this.cityData?.lon).subscribe(res=>{ 
             if(res == ''){
-              this.router.navigate(['/home'])
+              this.router.navigate([''])
             }
             this.weatherData= res   
           })
@@ -217,13 +218,13 @@ expanddiv:boolean=false;
 
   expand(){ 
     this.expanddiv = !this.expanddiv
-    if(this.expanddiv == false){
-      var height = `44%`;
-    }
-    else{
-      var height = `80%`;
-    } 
-  this.renderer.setStyle(this.forecast.nativeElement, "height", height);
+  //   if(this.expanddiv == false){
+  //     var height = `44%`;
+  //   }
+  //   else{
+  //     var height = `80%`;
+  //   } 
+  // this.renderer.setStyle(this.forecast.nativeElement, "height", height);
   } 
 
   setDate(){  
