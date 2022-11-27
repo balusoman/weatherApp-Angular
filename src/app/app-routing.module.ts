@@ -11,6 +11,7 @@ const routes: Routes =
       component: AppComponent,
       children: [
         { path: '', redirectTo: 'home', pathMatch: 'full' },
+        
         { path: 'weather', loadChildren: () => import('./screens/weather/weather.module').then(m => m.WeatherModule) },
         { path: '', loadChildren: () => import('./screens/home/home.module').then(m => m.HomeModule) }]
     },

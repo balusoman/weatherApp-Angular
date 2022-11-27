@@ -64,12 +64,12 @@
             </div>
             <div class=" hidden text-primaryBlack dark:text-white  h-full lg:flex flex-col items-center gap-4 w-20  py-14 ">
                 
-                <a routerLink='./dashboard'   routerLinkActive="active" class=" w-10 h-10 flex justify-center rounded-md shadow-2xl items-center">
+                <a routerLink="./dashboard"   routerLinkActive="active" class=" w-10 h-10 flex justify-center rounded-md shadow-2xl items-center">
                     <span class="material-symbols-outlined  text-3xl">
                         dashboard
                         </span>
                 </a> 
-                <a routerLink='./info'   routerLinkActive="active" class=" w-10 rounded-md shadow-2xl h-10 flex justify-center items-center">
+                <a routerLink="./info"   routerLinkActive="active" class=" w-10 rounded-md shadow-2xl h-10 flex justify-center items-center">
                     <span class="material-symbols-outlined  text-3xl">
                         insights
                         </span>
@@ -172,25 +172,50 @@
 
 
         </div>
-       
-        <div *ngIf="weatherData"  #forecast class=" w-full absolute bottom-0 bg-slate-50 dark:bg-black   h-[44%] px-8 pb-4  ">
 
-            <button *ngIf="expanddiv" (click)="expand()"
-                        class="w-10/12 h-[20px] flex top-0 absolute rounded-full justify-center items-center shadow-sm border border-slate-50 dark:border-darkPrimary ">
-                        <span class="material-symbols-outlined text-orange-400 dark:text-white text-2xl font-medium ">
-                        
-                                expand_more 
-                            </span>
-            </button>
-            
-            <div [@slideInUpOnEnter] class="h-full w-full flex flex-col items-center pt-8 ">
-                <span class="text-2xl font-semibold text-slate-700 dark:text-slate-200 ">Weather Prediction</span>
-                <div class="w-full flex flex-col gap-2 flex-grow items-center justify-around pt-2">
-                     
+        <div class="w-full h-[44%] absolute bottom-0" [@slideInUpOnEnter]="{ value: '', params: { duration: 1200, translate: '150px',delay:800 } }" *ngIf="weatherData">
+            <div 
+          *ngIf=" !expanddiv"  class=" w-full bg-slate-50 dark:bg-black flex flex-col justify-center items-center gap-1 pt-2   h-full px-8 pb-4 ">
 
-                    <ng-container *ngIf="expanddiv">
-                        <div *ngFor="let day of weatherData?.daily | slice:2:7"
-                            class="h-2/6 w-full flex px-4 dark:bg-slate-50 items-center rounded-xl shadow-md">
+                <span [@fadeOutOnLeave]="{ value: '', params: { duration: 10} }" class="text-2xl font-semibold pb-2 text-slate-700 dark:text-slate-200 ">Weather Prediction</span>
+
+                <div *ngFor="let day of weatherData?.daily | slice:2:4"
+                    class="h-[28%] w-full flex px-4 bg-white  items-center rounded-xl shadow-md">
+                    <div class="w-12 h-12  bg-contain bg-center bg-no-repeat"
+                    [ngStyle]="{'background-image': 
+                    day.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
+                     day.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
+                     day.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
+                     day.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
+                     day.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
+
+                     'url(\'../../../assets/icons/clear.png\')'}">
+                    </div>
+                    <div class="flex h-full flex-grow  px-2 flex-col justify-center">
+                        <span class="text-gray-500  text-md">{{day.dt | datepipe}}</span>
+                        <div class="w-full flex flex-row justify-between items-center">
+                            <span class="text-lg text-slate-700 capitalize font-medium">{{day.weather[0].description}}</span>
+                            <span class="text-orange-400 dark:text-darkPrimary text-base">{{ day.temp.max - 273 | number: "1.0-0"
+                                }}&deg;/{{ day.temp.min - 273 | number: "1.0-0" }}&deg; </span>
+                        </div>
+                    </div>
+                </div> 
+                <button (click)="expand()"
+                        class="w-[45%] h-[18%] flex self-end rounded-xl justify-center items-center shadow-xl bg-orange-400 dark:bg-darkPrimary">
+                        <span class="text-white font-semibold tracking-wide text-md">Next 5 Days</span>
+                </button> 
+        </div>
+        </div>
+
+
+        <div [@slideInUpOnEnter]="{ value: '', params: { duration: 1000, translate: '320px'} }"
+        [@slideOutDownOnLeave]
+        *ngIf="weatherData && expanddiv" class=" w-full h-[80%] absolute bottom-0 bg-slate-50 dark:bg-black flex flex-col justify-center items-center gap-1 pt-2  px-8 pb-4 ">
+
+            <span [@fadeOutOnLeave]="{ value: '', params: { duration: 500 } }"  class="text-3xl font-semibold pb-2 text-slate-700 dark:text-slate-200 ">Weather Prediction</span>
+
+            <div  *ngFor="let day of weatherData?.daily | slice:2:7"
+                            class="h-[28%] w-full flex px-4 bg-white dark:bg-slate-50 items-center rounded-xl shadow-md">
                             <div class="w-12 h-12  bg-contain bg-center bg-no-repeat"
                             [ngStyle]="{'background-image': 
                             day.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
@@ -234,87 +259,20 @@
                                 </div>
                             </div>
                         </div>
-                    </ng-container>
 
-                    <ng-container *ngIf="!expanddiv">
-                        <div *ngFor="let day of weatherData?.daily | slice:2:4"
-                            class="h-2/6 w-full flex px-4 bg-white  items-center rounded-xl shadow-md">
-                            <div class="w-12 h-12  bg-contain bg-center bg-no-repeat"
-                            [ngStyle]="{'background-image': 
-                            day.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
-                             day.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
-                             day.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
-                             day.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
-                             day.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
- 
-                             'url(\'../../../assets/icons/clear.png\')'}">
-                                <!-- <img src="../../../assets/icons/sun-cool.png" alt=""> -->
-                            </div>
-                            <div class="flex h-full flex-grow  px-2 flex-col justify-center">
-                                <span class="text-gray-500  text-md">{{day.dt | datepipe}}</span>
-                                <div class="w-full flex flex-row justify-between items-center">
-                                    <span class="text-lg text-slate-700 capitalize font-medium">{{day.weather[0].description}}</span>
-                                    <span class="text-orange-400 dark:text-darkPrimary text-base">{{ day.temp.max - 273 | number: "1.0-0"
-                                        }}&deg;/{{ day.temp.min - 273 | number: "1.0-0" }}&deg; </span>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-
-
-
-                    <!-- <div class="h-2/6 w-full flex px-4 bg-white items-center rounded-xl shadow-md">
-                        <div class="w-12 h-12 ">
-                            <img src="../../../assets/icons/cloudy (1).png" alt="">
-                        </div>
-                        <div class="flex h-full flex-grow  px-2 flex-col justify-center">
-                            <span class="text-gray-500  text-md">November 10</span>
-                            <div class="w-full flex flex-row justify-between">
-                                <span class="text-lg font-semibold">Cloudy</span>
-                                <span class="text-orange-400 text-lg font-semibold">{{ 323 - 273 | number: "1.0-0" }}&deg; / {{ 320 - 273 | number: "1.0-0" }}&deg; </span>
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <button *ngIf="!expanddiv" (click)="expand()"
-                        class="w-1/2 h-1/4 flex self-end rounded-xl justify-center items-center shadow-xl bg-orange-400 dark:bg-darkPrimary">
-                        <span class="text-white font-semibold tracking-wide text-md">Next 5 Days</span>
-                    </button> 
-
-                    
-
-                    <!-- <button *ngIf="expanddiv" (click)="expand()"
-                        class="w-1/6 h-1/4 pl-2 flex self-end rounded-full justify-center items-center shadow-xl bg-orange-400">
-                        <span class="material-symbols-outlined text-white font-semibold ">
-                            arrow_back_ios
+            <button *ngIf="expanddiv" (click)="expand()"
+                        class="w-full h-[20px] flex bg-white  rounded-full justify-center items-center shadow-sm border border-slate-50 dark:border-darkPrimary ">
+                        <span class="material-symbols-outlined text-orange-400 dark:text-purple-800 text-2xl font-medium ">
+                        
+                                expand_more 
                             </span>
-                    </button> -->
-
-                    <!-- <div class="h-1/2 w-full flex px-4 items-center rounded-xl shadow-md">
-                        <div class="w-12 h-12 ">
-                            <img src="../../../assets/icons/sun.png" alt="">
-                        </div>
-                        <div class="flex h-full flex-grow  px-2 flex-col justify-center">
-                            <span class="text-gray-500  text-md">November 10</span>
-                            <div class="w-full flex flex-row justify-between">
-                                <span class="text-lg font-semibold">Cloudy</span>
-                                <span class="text-orange-400 text-lg font-semibold">{{ 323 - 273 | number: "1.0-0" }}&deg; / {{ 320 - 273 | number: "1.0-0" }}&deg; </span>
-                            </div>
-                        </div>
-                    </div> -->
-
-
-
-                </div>
-            </div>
+            </button> 
+    
         </div>
-        <!-- <div class="absolute h-96 w-72 bg-green-300 top-36 right-0">
-            <tui-calendar
-            
-    [value]="calenderValue"
-    (dayClick)="onDayClick($event)"
-></tui-calendar> 
-        </div> -->
+
+
+       
+        
     </div>
 </div>
 
